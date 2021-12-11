@@ -428,14 +428,47 @@
   
                   </tbody>
                 </table>
+
+            <hr>
+            <h6>Summary</h6>
+            <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
+            <hr>
+              <h6>Work History</h6>
+              <div class="form-group row">
+                  <label for="WorkHistoryName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" id="WorkHistoryName" noLiveEdit="1">
+                  </div>
+                  <label for="WorkHistoryValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" id="WorkHistoryValue" noLiveEdit="1">
+                  </div>
+                  <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Language')">Add</button>
+              </div>
+
+              
+  
+              <table id="WorkHistorysList" class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">DateFrom</th>
+                      <th scope="col">DateTo</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">Text</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  
+                  </tbody>
+                </table>
   
 
 
             <button type="button" onclick="MakePage()">Render</button>
 
-            <hr>
-            <h6>Summary</h6>
-            <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
+            
           </div>
 
           <div class="col">
@@ -445,9 +478,17 @@
         </div>
       </div>
     
+<
 
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="myModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <textarea style="height:500px"></textarea>
+          </div>
+        </div>
+      </div>
 
-
+      
     <script src="./css/fonts/Hash44-bold.js"></script>
 
     <script src="/TemplateController.js"></script>

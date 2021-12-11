@@ -1,51 +1,25 @@
-
-
-
-
-
-
-
-/*
-
-$('#fileinput').on('change', function () {
-    var fileReader = new FileReader();
-    fileReader.onload = function () {
-        try {
-            var data = JSON.parse(fileReader.result);
-            if(IsValid(data))
-                LoadTemplate(data)
-            else
-                alert("Something went wrong. The file you are using is not a template file.")
-        } catch (error) {
-            console.log(error)
-            alert("Something went wrong. It looks live the file your trying to load is not a json data file.")
-        }
-    };
-    fileReader.readAsText($('#fileinput').prop('files')[0]);
-});  
-*/
 Loading = false;
 function UpdateTemplate()
 {
         $.getJSON( "/Templates/"+$('#Templates').find(":selected").attr("value")+".json", function( data ) {
-            LoadTemplate(data)
+            LoadTemplate(data);
         });
 }
 
 function ProgressBar(doc,x,y,width,height,BgColor,FgColor,progress)
 {
-    doc.setFillColor(BgColor[0],BgColor[1],BgColor[2])
-    doc.rect(x,y,width,height,'F')
-    doc.setFillColor(FgColor[0],FgColor[1],FgColor[2])
-    doc.rect(x,y,width*(progress/100),height,'F')
+    doc.setFillColor(BgColor[0],BgColor[1],BgColor[2]);
+    doc.rect(x,y,width,height,'F');
+    doc.setFillColor(FgColor[0],FgColor[1],FgColor[2]);
+    doc.rect(x,y,width*(progress/100),height,'F');
 
 }
 
 $(':input').keyup(function(){
     if($(this).attr('noLiveEdit') != undefined)
-        return
-    console.log("Edit")
-    LiveEdit()
+        return;
+    console.log("Edit");
+    LiveEdit();
  });
 
 
@@ -53,7 +27,7 @@ function LiveEdit()
 {
     if (document.getElementById('LiveEdit').checked && Loading == false)
     {
-        MakePage()
+        MakePage();
     }
 }
 
@@ -77,68 +51,94 @@ $('#SaveFile').on('change', function () {
                         addToList(element2,element,data[element2+"s"][element])
                     });
                 });
-
-                $("#Summary").val(data["Summary"])
-                setTimeout(function(){ MakePage() },1000)
+                
+                data["WorkHistory"].forEach(element => {
+                    addToWorkList(element["DateFrom"],element["DateTo"],element["Name"],element["Location"],element["Text"])
+                });
+                $("#Summary").val(data["Summary"]);
+                setTimeout(function(){ MakePage() },1000);
                 
                 Loading = false;
             }
             else
-                alert("Something went wrong. The file you are using is not a template file.")
+            {
+                alert("Something went wrong. The file you are using is not a template file.");
+            }
                 
         } catch (error) {
-            console.log(error)
-            alert("Something went wrong. It looks live the file your trying to load is not a json data file.")
-        }
+            console.log(error);
+            alert("Something went wrong. It looks live the file your trying to load is not a json data file.");
+        };
     };
     fileReader.readAsText($('#SaveFile').prop('files')[0]);
 });  
+
 function addNewToList(name)
 {
-    addToList(name,$("#"+name+"Name").val(),$("#"+name+"Value").val())
-    $("#"+name+"Name").val("")
-    $("#"+name+"Value").val("")
-    LiveEdit()
-}
+    addToList(name,$("#"+name+"Name").val(),$("#"+name+"Value").val());
+    $("#"+name+"Name").val("");
+    $("#"+name+"Value").val("");
+    LiveEdit();
+};
+
 function addToList(domName,name,value)
 {
     if(name == "" || value == "")
         return;
     $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
-}
+};
+
+function addToWorkList(datefrom,dateto,name,location,text)
+{
+    if(datefrom == "" || dateto == "" || name == "" || location == "")
+        return;
+    $('#WorkHistorysList > tbody:last-child').append('<tr><td>'+datefrom+'</td><td>'+dateto+'</td><td>'+name+'</td><td>'+location+'</td><td><textarea onclick="ShowLargeEditor(this)">'+text+'</textarea></td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
+};
 
 function ProgressToNameConverter(precentage){
     if(precentage >= 90)
-        return "Great"
+        return "Great";
     if(precentage >= 75)
-        return "Very Good"
+        return "Very Good";
     else if(precentage >= 50)
-        return "Good"
+        return "Good";
     else if(precentage >= 25)
-        return "Ok"
+        return "Ok";
     else
-        return "No Good"
-}
+        return "No Good";
+};
 
 function removeFromTable(dom)
 {
-    $(dom).parent().parent().remove()
-    LiveEdit()
-}
+    $(dom).parent().parent().remove();
+    LiveEdit();
+};
 
 function IsValid(data)
 {
     if(data["Details"] == undefined)
-        return false
-    return true
-}
+        return false;
+    return true;
+};
 function IsValidData(data)
 {
     if(data["Template"] == undefined)
-        return false
-    return true
-}
-
+        return false;
+    return true;
+};
+TextAreaToModel = null;
+function ShowLargeEditor(from)
+{
+    TextAreaToModel = from;
+    $('#myModal textarea').val($(TextAreaToModel).val());
+    $('#myModal').modal('show');
+    console.log("Show");
+};
+$('#myModal').on('hidden.bs.modal', function () {
+    $(TextAreaToModel).val($('#myModal textarea').val());
+    $('#myModal textarea').val("");
+    LiveEdit();
+});
 
 (function(API){
     API.myText = function(txt, options, x, y) {
