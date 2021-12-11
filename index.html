@@ -43,6 +43,23 @@
                     Data[element][Name] = Value
                 });
             });
+
+            $("#WorkHistorysList tbody > tr").each(function () 
+            { 
+                var children = $(this).children();
+                var DateFrom = $(children[0]).text();
+                var DateTo = $(children[1]).text();
+                var Name = $(children[2]).text();
+                var Location = $(children[3]).text();
+                var Text = $(children[4]).children("textarea").val();
+                Data["WorkHistory"].push({
+                    "DateFrom":DateFrom,
+                    "DateTo":DateTo,
+                    "Name":Name,
+                    "Location":Location,
+                    "Text":Text
+                });
+            });
             console.log(Data);
             return Data;
             //console.log(Data) 
