@@ -15,26 +15,34 @@
         Debug = false;
         function LoadTemplate(data)
         {
-            $("#TemplateName").html("Template: "+data["Details"]["Name"])
+            $("#TemplateName").html(data["Details"]["Name"])
             Data = data;
         }
         function GetDataObject()
         {
             var Data = {
                 "Template":$('#Templates').find(":selected").attr("value"),
+                "LiveEdit":document.getElementById('LiveEdit').checked,
                 "Name": $("#Name").val(),
                 "JobTitle": $("#JobTitle").val(),
                 "Contacts":{},
+                "Skills":{},
+                "Languages":{},
+
                 "Summary":$("#Summary").val()
-            }
+
+            };
             
-            $("#ContactsList tbody > tr").each(function () 
-            { 
-                var children = $(this).children();
-                var Name = $(children[0]).text();
-                var Value = $(children[1]).text();
-                Data["Contacts"][Name] = Value
+            ["Contacts","Skills","Languages"].forEach(element => {
+                $("#"+element+"List tbody > tr").each(function () 
+                { 
+                    var children = $(this).children();
+                    var Name = $(children[0]).text();
+                    var Value = $(children[1]).text();
+                    Data[element][Name] = Value
+                });
             });
+            console.log(Data);
             return Data;
             //console.log(Data) 
            // download(Data["Name"]+".json",JSON.stringify(Data))
@@ -92,14 +100,14 @@
                     current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"] ,Data["Style"]["JobTitle"]["Width"]);
                 }
 
-                // Contact Side Bar
+                // Contact
                 if(Data["Style"]["SideBarHeader"] != undefined){
                     doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
                     doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
                 }
 
-                Draw(doc,"Contact",Data["Style"]["Contact"],current_y)
-                current_y += 12
+                Draw(doc,"Contact",Data["Style"]["Contact"],current_y-2)
+                current_y += 9
                 if(Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined)
                 {
 
@@ -112,28 +120,66 @@
                             doc.text(2,current_y+10+y,element2)
                             y += 5
                         });
-                        if(Info["Contacts"][element].includes("http"))
-                        {
-                            //doc.rect(2,current_y+5,60,20,'F')
-                           // doc.link(2,current_y+10,65,20,{ url: Info["Contacts"][element] })
-                        }
-                        current_y += 10+y
+                        current_y += 8+y
                     });
                 }
+                current_y += 1
+                
 
                 // Skills
                 if(Data["Style"]["SideBarHeader"] != undefined){
                     doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
                     doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
                 }
-
-                Draw(doc,"Skills",Data["Style"]["Contact"],current_y)
                 
+                Draw(doc,"Skills",Data["Style"]["Contact"],current_y-2)
+                current_y += 9
+                
+                if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
+                {
+                    Object.keys(Info["Skills"]).forEach(element => {
+                        setStyle(doc,Data["Style"]["SkillsTitle"])
+                        doc.text(2,current_y+5,element+":")
+                        if(Data["Style"]["SkillBarType"] == "ProgressBar")
+                            ProgressBar(doc,2,current_y+8,60,3,[0,49,92],[230,230,240],Info["Skills"][element])
+                        
+                        setStyle(doc,Data["Style"]["SkillText"])
+                        doc.text(60,current_y+16,ProgressToNameConverter(Info["Skills"][element]),{align:"right"})
+
+                        current_y += 17
+                    });
+                }
+                current_y += 1
+
+                // Language
+                if(Data["Style"]["SideBarHeader"] != undefined){
+                    doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
+                    doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+                }
+
+                Draw(doc,"Language",Data["Style"]["Contact"],current_y-2)
+                current_y += 9
+
+                if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
+                {
+                    Object.keys(Info["Languages"]).forEach(element => {
+                        setStyle(doc,Data["Style"]["SkillsTitle"])
+                        doc.text(2,current_y+5,element+":")
+                        if(Data["Style"]["SkillBarType"] == "ProgressBar")
+                            ProgressBar(doc,2,current_y+8,60,3,[0,49,92],[230,230,240],Info["Languages"][element])
+                        
+                        setStyle(doc,Data["Style"]["SkillText"])
+                        doc.text(60,current_y+16,ProgressToNameConverter(Info["Languages"][element]),{align:"right"})
+
+                        current_y += 17
+                    });
+                }
+                
+
             }
 
-           // ProgressBar(doc,0,0,100,10,[10,10,10],[255,255,255],50)
             
-
+            current_y = 0
             // To Be Complated
             doc.setFontSize(Data["Style"]["JobTitle"]["FontSize"]);
             
@@ -165,6 +211,12 @@
             doc.setTextColor(data["Color"][0],data["Color"][1],Data["Style"]["Contact"]["Color"][2]);
             doc.text(text, data["X"], current_y+data["Y"]);
             return current_y+data["Y"]
+        }
+        function downloadCvDataFile()
+        {
+            var data = GetDataObject();
+            var name = data["Name"] || "CV_File"
+            download(name+".json",JSON.stringify(data,null, "\t"))
         }
         function download(filename, text) {
             var element = document.createElement('a');
@@ -203,21 +255,52 @@
         }
     </style>
 </head>
-<body>
+<body style="padding: 1vw;">
 
     <div>
         <div class="row">
 
           <div class="col">
-            <input type="file" id="SaveFile"/>
+            <div class="form-group row">
+                <label for="SaveFile" class="col-sm-1 col-form-label" style="text-align: right;">Load:</label>
+                <div class="col-sm-4">
+                    <input type="file" class="form-control" id="SaveFile" />
+                </div>
 
-            <select id="Templates" onchange="UpdateTemplate()">
-                <option value="Template1">
-                    Blue lake 
-                </option>
-            </select>
+                <label for="LoadFile" class="col-sm-1 col-form-label" style="text-align: right;">Save:</label>
+                <div class="col-sm-4">
+                    <button onclick="downloadCvDataFile()" class="btn btn-primary">Download</button>
 
-            <div id="TemplateName"></div>
+                </div>
+            </div>
+            <hr>
+            <h6>Template Settings</h6>
+            <div class="form-group row">
+                <label for="Templates" class="col-sm-1 col-form-label" style="text-align: right;">Templates:</label>
+                <div class="col-sm-2">
+                    <select class="form-select" id="Templates" conchange="UpdateTemplate()">
+                        <option value="Template1">
+                            Blue lake 
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    Loaded Template: <span id="TemplateName"></span>
+                </div>
+
+                <div class="form-check col-sm-5">
+                    <input class="form-check-input" type="checkbox" value="" id="LiveEdit">
+                    <label class="form-check-label" for="LiveEdit">
+                        Live Edit
+                    </label>
+                  </div>
+            </div>
+            
+
+            
+
+            
             <hr/>
             <h6>Personal Details</h6>
             <div class="form-group row">
@@ -239,13 +322,13 @@
             <div class="form-group row">
                 <label for="ContactName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="ContactName">
+                    <input type="text" class="form-control" id="ContactName" noLiveEdit="1">
                 </div>
                 <label for="ContactValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="ContactValue">
+                    <input type="text" class="form-control" id="ContactValue" noLiveEdit="1">
                 </div>
-                <button class="col-sm-2 btn btn-primary" onclick="newContact()">Add</button>
+                <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Contact')">Add</button>
             </div>
 
             <table id="ContactsList" class="table">
@@ -261,7 +344,65 @@
                 </tbody>
               </table>
 
+              
+              <hr/>
+            <h6>Skills Details</h6>
+            <div class="form-group row">
+                <label for="SkillName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="SkillName" noLiveEdit="1">
+                </div>
+                <label for="SkillValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                <div class="col-sm-3">
+                    <input type="number"  min="1" max="100" class="form-control" id="SkillValue" noLiveEdit="1">
+                </div>
+                <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Skill')">Add</button>
+            </div>
+
+            <table id="SkillsList" class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+
+
+              <h6>Language Details</h6>
+              <div class="form-group row">
+                  <label for="LanguageName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" id="LanguageName" noLiveEdit="1">
+                  </div>
+                  <label for="LanguageValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" id="LanguageValue" noLiveEdit="1">
+                  </div>
+                  <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Language')">Add</button>
+              </div>
+  
+              <table id="LanguagesList" class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Value</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  
+                  </tbody>
+                </table>
+  
+
+
             <button type="button" onclick="MakePage()">Render</button>
+
             <hr>
             <h6>Summary</h6>
             <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
@@ -277,7 +418,6 @@
 
 
 
-<button onclick="GetDataObject()">GetObject</button>
     <script src="./css/fonts/Hash44-bold.js"></script>
 
     <script src="/TemplateController.js"></script>

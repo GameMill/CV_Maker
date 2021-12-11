@@ -24,7 +24,7 @@ $('#fileinput').on('change', function () {
     fileReader.readAsText($('#fileinput').prop('files')[0]);
 });  
 */
-
+Loading = false;
 function UpdateTemplate()
 {
         $.getJSON( "/Templates/"+$('#Templates').find(":selected").attr("value")+".json", function( data ) {
@@ -41,28 +41,47 @@ function ProgressBar(doc,x,y,width,height,BgColor,FgColor,progress)
 
 }
 
+$(':input').keyup(function(){
+    if($(this).attr('noLiveEdit') != undefined)
+        return
+    console.log("Edit")
+    LiveEdit()
+ });
+
+
+function LiveEdit()
+{
+    if (document.getElementById('LiveEdit').checked && Loading == false)
+    {
+        MakePage()
+    }
+}
+
 $('#SaveFile').on('change', function () {
     var fileReader = new FileReader();
     fileReader.onload = function () {
         try {
             var data = JSON.parse(fileReader.result);
             console.log(data)
-
+            Loading = true;
             if(IsValidData(data))
             {
                 $("#Templates").val(data["Template"]);
-                $("#Name").val(data["Name"])
-                $("#JobTitle").val(data["JobTitle"])
-                UpdateTemplate(data)
-                $("#ContactsList tbody").html("")
-                Object.keys(data["Contacts"]).forEach(element => {
-                    addContact(element,data["Contacts"][element])
+                $("#Name").val(data["Name"]);
+                $("#JobTitle").val(data["JobTitle"]);
+                UpdateTemplate(data);
+                
+                ["Contact","Skill","Language"].forEach(element2 => {
+                    $("#"+element2+"sList tbody").html("");
+                    Object.keys(data[element2+"s"]).forEach(element => {
+                        addToList(element2,element,data[element2+"s"][element])
+                    });
                 });
 
                 $("#Summary").val(data["Summary"])
                 setTimeout(function(){ MakePage() },1000)
                 
-
+                Loading = false;
             }
             else
                 alert("Something went wrong. The file you are using is not a template file.")
@@ -74,20 +93,34 @@ $('#SaveFile').on('change', function () {
     };
     fileReader.readAsText($('#SaveFile').prop('files')[0]);
 });  
-function newContact()
+function addNewToList(name)
 {
-    addContact($("#ContactName").val(),$("#ContactValue").val())
-    $("#ContactName").val("")
-    $("#ContactValue").val("")
+    addToList(name,$("#"+name+"Name").val(),$("#"+name+"Value").val())
+    $("#"+name+"Name").val("")
+    $("#"+name+"Value").val("")
+    LiveEdit()
 }
-function addContact(name,value)
+function addToList(domName,name,value)
 {
     if(name == "" || value == "")
         return;
-    $('#ContactsList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button onclick="removeContact(this)">-</button></td></tr>');
-
+    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
 }
-function removeContact(dom)
+
+function ProgressToNameConverter(precentage){
+    if(precentage >= 90)
+        return "Great"
+    if(precentage >= 75)
+        return "Very Good"
+    else if(precentage >= 50)
+        return "Good"
+    else if(precentage >= 25)
+        return "Ok"
+    else
+        return "No Good"
+}
+
+function removeFromTable(dom)
 {
     $(dom).parent().parent().remove()
 }
