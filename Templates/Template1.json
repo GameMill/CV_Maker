@@ -56,8 +56,22 @@
             "Height":8,
             "Color":[0,49,92]
         },
-        "Skills":{
-            
+
+        "SummaryHeader":{
+            "X":70,
+            "Y":0,
+            "Width":65,
+            "Color":[50,50,50],
+            "Font":["Helvetica",""],
+            "FontSize":14
+        },
+        "SummaryText":{
+            "X":70,
+            "Y":0,
+            "Width":65,
+            "Color":[50,50,50],
+            "Font":["Helvetica",""],
+            "FontSize":11
         }
     },
 

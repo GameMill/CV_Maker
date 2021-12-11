@@ -123,6 +123,7 @@ function ProgressToNameConverter(precentage){
 function removeFromTable(dom)
 {
     $(dom).parent().parent().remove()
+    LiveEdit()
 }
 
 function IsValid(data)

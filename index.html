@@ -29,7 +29,8 @@
                 "Skills":{},
                 "Languages":{},
 
-                "Summary":$("#Summary").val()
+                "Summary":$("#Summary").val(),
+                "WorkHistory":[]
 
             };
             
@@ -59,6 +60,8 @@
 
             // Default export is a4 paper, portrait, using milimeters for units
             var doc = new jsPDF()
+            doc.title = Info["Name"]+" CV"
+            
             console.log(doc.getFontList())
 
             console.log(doc.internal.pageSize.getWidth(),doc.internal.pageSize.getHeight())
@@ -101,13 +104,16 @@
                 }
 
                 // Contact
-                if(Data["Style"]["SideBarHeader"] != undefined){
-                    doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                    doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
-                }
+                if(Object.keys(Info["Contacts"]).length > 0 )
+                {
+                    if(Data["Style"]["SideBarHeader"] != undefined){
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+                    }
 
-                Draw(doc,"Contact",Data["Style"]["Contact"],current_y-2)
-                current_y += 9
+                    Draw(doc,"Contact",Data["Style"]["Contact"],current_y-2)
+                    current_y += 9
+                }
                 if(Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined)
                 {
 
@@ -127,13 +133,17 @@
                 
 
                 // Skills
-                if(Data["Style"]["SideBarHeader"] != undefined){
-                    doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                    doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+                if(Object.keys(Info["Skills"]).length > 0 )
+                {
+                    if(Data["Style"]["SideBarHeader"] != undefined){
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+                    }
+                    
+                    Draw(doc,"Skills",Data["Style"]["Contact"],current_y-2)
+                    current_y += 9
                 }
-                
-                Draw(doc,"Skills",Data["Style"]["Contact"],current_y-2)
-                current_y += 9
+
                 
                 if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
                 {
@@ -151,14 +161,19 @@
                 }
                 current_y += 1
 
-                // Language
-                if(Data["Style"]["SideBarHeader"] != undefined){
-                    doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                    doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+
+                if(Object.keys(Info["Languages"]).length > 0 )
+                {
+                    // Language
+                    if(Data["Style"]["SideBarHeader"] != undefined){
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F')
+                    }
+                    Draw(doc,"Language",Data["Style"]["Contact"],current_y-2)
+                    current_y += 9
                 }
 
-                Draw(doc,"Language",Data["Style"]["Contact"],current_y-2)
-                current_y += 9
+                
 
                 if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
                 {
@@ -179,23 +194,38 @@
             }
 
             
-            current_y = 0
+            current_y = 3
             // To Be Complated
-            doc.setFontSize(Data["Style"]["JobTitle"]["FontSize"]);
-            
-            doc.rect(70,2,132,.5,'F')
-            doc.text(72,9,"Summary")
-            doc.rect(70,12,132,.5,'F')
+            if(Info["Summary"].length > 0 )
+            {
+                setStyle(doc,Data["Style"]["SummaryHeader"])
 
-            doc.setFontSize(12)
-            var lines = doc.splitTextToSize($("#Summary").val(), 132);
-            doc.text(70,20,lines)
-
-
-            doc.setFontSize(Data["Style"]["JobTitle"]["FontSize"]);
-            doc.rect(70,45,132,.5,'F')
-            doc.text(72,52,"Work History")
-            doc.rect(70,55,132,.5,'F')
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F')
+                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+7,'\u2022 ' + "Summary")
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F')
+                    
+                current_y = 18
+                setStyle(doc,Data["Style"]["SummaryText"])
+                var lines = doc.splitTextToSize(Info["Summary"], 132);
+                    
+                lastVh = 0
+                lines.forEach(element => {
+                    doc.text(Data["Style"]["SummaryText"]["X"],current_y,element)
+                    h = doc.getTextDimensions(element)["h"]*1.1;
+                    if(h > 0)
+                        lastVh = h
+                    current_y += lastVh
+                });
+            }
+            if(Info["WorkHistory"].length > 0 )
+            {
+                doc.setFontSize(Data["Style"]["JobTitle"]["FontSize"]);
+                doc.rect(70,current_y,132,.5,'F')
+                doc.text(72,current_y+7,"Work History")
+                doc.rect(70,current_y+9,132,.5,'F')
+                
+                current_y += 15
+            }
 
            // doc.textWithLink('Click here\nHello World', 0, 50, { url: 'https://gamemill.github.io/Website-For-Codenation/' });
 
