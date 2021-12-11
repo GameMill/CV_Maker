@@ -82,17 +82,13 @@
             {
                 if(Data["Style"]["Name"] != undefined){
                     Name = Info["Name"]
-                    doc.setFont(Data["Style"]["Name"]["Font"][0],Data["Style"]["Name"]["Font"][1])
-                    doc.setFontSize(Data["Style"]["Name"]["FontSize"]);
-                    doc.setTextColor(Data["Style"]["Name"]["Color"][0],Data["Style"]["Name"]["Color"][1],Data["Style"]["Name"]["Color"][2]);
+                    setStyle(doc,Data["Style"]["Name"])
                     current_y = doc.Boxed_Text(Name, Data["Style"]["Name"]["X"], Data["Style"]["Name"]["Y"] ,Data["Style"]["Name"]["Width"]);
                 }
 
                 if(Data["Style"]["JobTitle"] != undefined){
                     Name = Info["JobTitle"]
-                    doc.setFont(Data["Style"]["JobTitle"]["Font"][0],Data["Style"]["JobTitle"]["Font"][1])
-                    doc.setFontSize(Data["Style"]["JobTitle"]["FontSize"]);
-                    doc.setTextColor(Data["Style"]["JobTitle"]["Color"][0],Data["Style"]["JobTitle"]["Color"][1],Data["Style"]["JobTitle"]["Color"][2]);
+                    setStyle(doc,Data["Style"]["JobTitle"])
                     current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"] ,Data["Style"]["JobTitle"]["Width"]);
                 }
 
@@ -104,14 +100,13 @@
 
                 Draw(doc,"Contact",Data["Style"]["Contact"],current_y)
                 current_y += 12
-                if(Data["Style"]["Contact"] != undefined)
+                if(Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined)
                 {
-                    doc.setFontSize(14);
 
                     Object.keys(Info["Contacts"]).forEach(element => {
-                        doc.setFont("Helvetica","Bold")
+                        setStyle(doc,Data["Style"]["ContactTitle"])
                         doc.text(2,current_y+5,element+":")
-                        doc.setFont("Helvetica","")
+                        setStyle(doc,Data["Style"]["ContactURL"])
                         y = 0
                         doc.splitTextToSize(Info["Contacts"][element], 60).forEach(element2 => {
                             doc.text(2,current_y+10+y,element2)
@@ -179,6 +174,26 @@
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
+        }
+
+        function setStyle(doc,style)
+        {
+            if(style["Color"] != undefined)
+            {
+                doc.setDrawColor(style["Color"][0],style["Color"][1],style["Color"][2]);
+                doc.setFillColor(style["Color"][0],style["Color"][1],style["Color"][2]);
+                doc.setTextColor(style["Color"][0],style["Color"][1],style["Color"][2]);
+            }
+            if (style["FontSize"] != undefined) {
+                doc.setFontSize(style["FontSize"]);
+            }
+            if (style["Font"] != undefined) {
+                doc.setFont(style["Font"][0],style["Font"][1])
+            }
+            
+           
+            
+            
         }
     </script>
     <style>

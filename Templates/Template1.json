@@ -29,6 +29,16 @@
             "Font":["Times","Bold"],
             "FontSize":20
         },
+        "ContactTitle":{
+            "Color":[255,255,255],
+            "Font":["Helvetica","Bold"],
+            "FontSize":14
+        },
+        "ContactURL":{
+            "Color":[255,255,255],
+            "Font":["Helvetica",""],
+            "FontSize":14
+        },
         "SideBarHeader":{
             "X":0,
             "Width":65,
