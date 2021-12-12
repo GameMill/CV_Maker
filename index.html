@@ -31,7 +31,8 @@
 
                 "Summary":$("#Summary").val(),
                 "WorkHistory":[],
-                "Education":[]
+                "Education":[],
+                "Certificates":[]
 
             };
             
@@ -273,6 +274,8 @@
                 });
             }
             current_y -= 5
+            //Education
+
             if(Info["Education"].length > 0 || true)
             {
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
@@ -281,8 +284,19 @@
                 doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Education");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                current_y+= 12
             }
-            //Education
+
+            if(Info["Certificates"].length > 0)
+            {
+                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                setStyle(doc,Data["Style"]["SummaryHeader"]);
+                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Certificates");
+                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+            }
+            
 
             $("#frame").attr('src', doc.output('datauristring'))
 
