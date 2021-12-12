@@ -154,6 +154,10 @@ function addWorkHistory()
 }
 
 (function(API){
+    API.GetWidth = function(txt) {
+        var fontSize = this.internal.getFontSize();
+        return this.getStringUnitWidth(txt)*fontSize/this.internal.scaleFactor;
+    }
     API.myText = function(txt, options, x, y) {
         options = options ||{};
         /* Use the options align property to specify desired text alignment

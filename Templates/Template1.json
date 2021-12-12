@@ -77,6 +77,31 @@
             "Color":[50,50,50],
             "Font":["Helvetica",""],
             "FontSize":11
+        },
+
+        "WorkHistoryText":{
+            "X":70,
+            "Y":0,
+            "Width":65,
+            "Color":[50,50,50],
+            "Font":["Helvetica",""],
+            "FontSize":11
+        },
+        "WorkHistoryName":{
+            "X":110,
+            "Y":0,
+            "Width":65,
+            "Color":[50,50,50],
+            "Font":["Helvetica","Bold"],
+            "FontSize":11
+        },
+        "WorkHistoryBody":{
+            "X":70,
+            "Y":0,
+            "Width":65,
+            "Color":[50,50,50],
+            "Font":["Helvetica","Bold"],
+            "FontSize":11
         }
     },
 

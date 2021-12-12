@@ -30,7 +30,8 @@
                 "Languages":{},
 
                 "Summary":$("#Summary").val(),
-                "WorkHistory":[]
+                "WorkHistory":[],
+                "Education":[]
 
             };
             
@@ -247,9 +248,41 @@
                 current_y += 15;
 
                 Info["WorkHistory"].forEach(element => {
+                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
+                    
+                    setStyle(doc,Data["Style"]["WorkHistoryName"]);
+                    doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y,element["Name"]);
+                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
+                    doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y+5,element["Location"]);
+                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
 
+                    doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,"From: "+element["DateFrom"]);
+                    txtWidth = (doc.GetWidth("From: ") - doc.GetWidth("To: "))-.4
+                    doc.text(Data["Style"]["WorkHistoryText"]["X"]+txtWidth,current_y+5,"To: "+element["DateTo"]);
+                    current_y += 5
+                    //doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,);
+                    element["Text"].split(/\r?\n/).forEach(Lines => {
+                        console.log(lines)
+                        doc.splitTextToSize(Lines, 132).forEach(Line => {
+                            doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,Line);
+                            current_y += doc.getTextDimensions(Line)["h"]*1.1;
+                        });
+                        current_y += 1
+                    });
+                    current_y += 10
                 });
             }
+            current_y -= 5
+            if(Info["Education"].length > 0 || true)
+            {
+                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                setStyle(doc,Data["Style"]["SummaryHeader"]);
+                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Education");
+                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+            }
+            //Education
 
             $("#frame").attr('src', doc.output('datauristring'))
 
