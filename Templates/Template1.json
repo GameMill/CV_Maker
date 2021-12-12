@@ -61,10 +61,15 @@
             "X":70,
             "Y":0,
             "Width":65,
-            "Color":[50,50,50],
-            "Font":["Helvetica",""],
+            "Color":[0,61,115],
+            "Font":["Helvetica","Bold"],
             "FontSize":14
         },
+
+        "SummaryHeaderBar":{
+            "Color":[200,200,200]
+        },
+        
         "SummaryText":{
             "X":70,
             "Y":0,
