@@ -140,6 +140,19 @@ $('#myModal').on('hidden.bs.modal', function () {
     LiveEdit();
 });
 
+function addWorkHistory()
+{
+    from = $('#WorkHistoryFrom').val();
+    to = $('#WorkHistoryTo').val();
+    _name = $('#WorkHistoryName').val();
+    _location = $('#WorkHistoryLocation').val();
+    addToWorkList(from,to,_name,_location,"")
+    $('#WorkHistoryFrom').val("");
+    $('#WorkHistoryTo').val("");
+    $('#WorkHistoryName').val("");
+    $('#WorkHistoryLocation').val("");
+}
+
 (function(API){
     API.myText = function(txt, options, x, y) {
         options = options ||{};

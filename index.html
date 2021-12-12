@@ -244,13 +244,13 @@
                 doc.text(72,current_y+7,"Work History");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(70,current_y+9,132,.5,'F');
-                
                 current_y += 15;
+
+                Info["WorkHistory"].forEach(element => {
+
+                });
             }
 
-           // doc.textWithLink('Click here\nHello World', 0, 50, { url: 'https://gamemill.github.io/Website-For-Codenation/' });
-
-            
             $("#frame").attr('src', doc.output('datauristring'))
 
         }
@@ -456,24 +456,34 @@
             <hr>
               <h6>Work History</h6>
               <div class="form-group row">
-                  <label for="WorkHistoryName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
-                  <div class="col-sm-3">
+                  <label for="WorkHistoryFrom" class="col-sm-1 col-form-label" style="text-align: right;">From:</label>
+                  <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryFrom" noLiveEdit="1">
+                  </div>
+                  <label for="WorkHistoryTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
+                  <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryTo" noLiveEdit="1">
+                  </div>
+                  <label for="WorkHistoryName" class="col-sm-1 col-form-label" style="text-align: right;">Name:</label>
+                  <div class="col-sm-2">
                       <input type="text" class="form-control" id="WorkHistoryName" noLiveEdit="1">
                   </div>
-                  <label for="WorkHistoryValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
-                  <div class="col-sm-3">
-                      <input type="text" class="form-control" id="WorkHistoryValue" noLiveEdit="1">
+                  <label for="WorkHistoryLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
+                  <div class="col-sm-2">
+                      <input type="text" class="form-control" id="WorkHistoryLocation" noLiveEdit="1">
                   </div>
-                  <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Language')">Add</button>
-              </div>
+                </div>
+                <div class="form-group row">
+                  <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory()">Add</button>
+                </div>
 
               
   
               <table id="WorkHistorysList" class="table">
                   <thead>
                     <tr>
-                      <th scope="col">DateFrom</th>
-                      <th scope="col">DateTo</th>
+                      <th scope="col">From</th>
+                      <th scope="col">To</th>
                       <th scope="col">Name</th>
                       <th scope="col">Location</th>
                       <th scope="col">Text</th>
