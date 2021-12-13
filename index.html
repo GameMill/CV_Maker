@@ -260,7 +260,7 @@
             current_y -= 5
             //Education
 
-            if(Info["Education"].length > 0 || true)
+            if(Info["Education"].length > 0)
             {
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
@@ -291,11 +291,11 @@
             }
             
             setStyle(doc,{
-                "Color":[0,0,0],
+                "Color":[200,200,200],
                 "Font":["Helvetica",""],
-                "FontSize":11
+                "FontSize":9
             });
-            doc.text(Data["Style"]["SummaryHeader"]["X"]+2,doc.internal.pageSize.getHeight()-2,"This CV was generated using my own CV generater\n");
+            doc.text(95,doc.internal.pageSize.getHeight()-3,"Made Using https://gamemill.github.io/CV_Maker/");
 
             $("#frame").attr('src', doc.output('datauristring'))
 
@@ -416,7 +416,7 @@
                 </div>
 
                 <div class="form-check col-sm-5">
-                    <input class="form-check-input" type="checkbox" value="" id="LiveEdit">
+                    <input class="form-check-input" type="checkbox" checked id="LiveEdit">
                     <label class="form-check-label" for="LiveEdit">
                         Live Edit
                     </label>
@@ -661,7 +661,7 @@
                       </tbody>
                     </table>
 
-            <button type="button" onclick="MakePage()">Render</button>
+            <button type="button" class="btn btn-danger col-sm-12" onclick="MakePage()">Render</button>
 
             
           </div>
