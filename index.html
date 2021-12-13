@@ -134,7 +134,7 @@
                     }
 
                     Draw(doc,"Contact",Data["Style"]["Contact"],current_y-2);
-                    current_y += 9;
+                    current_y += 8;
                 }
                 if(Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined)
                 {
@@ -148,7 +148,7 @@
                             doc.text(2,current_y+10+y,element2);
                             y += 5;
                         });
-                        current_y += 8+y;
+                        current_y += 7+y;
                     });
                 }
                 current_y += 1;
@@ -171,14 +171,14 @@
                 {
                     Object.keys(Info["Skills"]).forEach(element => {
                         setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(2,current_y+5,element+":");
+                        doc.text(2,current_y+4,element+":");
                         if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+8,60,3,[0,49,92],[230,230,240],Info["Skills"][element]);
+                            ProgressBar(doc,2,current_y+7,60,3,[0,49,92],[230,230,240],Info["Skills"][element]);
                         
                         setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(60,current_y+16,ProgressToNameConverter(Info["Skills"][element]),{align:"right"});
+                        doc.text(60,current_y+14,ProgressToNameConverter(Info["Skills"][element]),{align:"right"});
 
-                        current_y += 17;
+                        current_y += 15;
                     });
                 }
                 current_y += 1
@@ -201,14 +201,14 @@
                 {
                     Object.keys(Info["Languages"]).forEach(element => {
                         setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(2,current_y+5,element+":");
+                        doc.text(2,current_y+4,element+":");
                         if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+8,60,3,[0,49,92],[230,230,240],Info["Languages"][element]);
+                            ProgressBar(doc,2,current_y+7,60,3,[0,49,92],[230,230,240],Info["Languages"][element]);
                         
                         setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(60,current_y+16,ProgressToNameConverter(Info["Languages"][element]),{align:"right"});
+                        doc.text(60,current_y+14,ProgressToNameConverter(Info["Languages"][element]),{align:"right"});
 
-                        current_y += 17;
+                        current_y += 15;
                     });
                 }
                 
