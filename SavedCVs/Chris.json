@@ -1,0 +1,103 @@
+{
+    "Template":"Template1",
+    "LiveEdit":false,
+    "Name":"Christopher Boardman",
+    "JobTitle":"Software Developer",
+    "Contacts":{
+        "Address":"Wallasey, CH44",
+        "Phone":"07588958652",
+        "E-Mail":"ctboardman@msn.com",
+        "LinkedIn":"https://shorturl.at/rAJQ8",
+        "Website":"https://shorturl.at/ilrC0",
+        "Github":"https://github.com/gamemill",
+        "TryHackMe":"https://shorturl.at/mxJR8"
+    },
+    "Skills":{
+        "Software Development":75,
+        "Programming":75,
+        "API design knowledge":80,
+        "Agile":60
+    },
+    "Languages":{
+        "C#":85,
+        "PHP":80,
+        "Python":82,
+        "HTML and Javascript":75,
+        "Node.js":49
+    },
+    "Summary": "More Than 5 Years of experience as .NET Developer hobbyist. Expert at spotting system defects and navigating programming languages. passion for quality user support and client-side web development. Ambitious, career-focused jobseeker, anxious to obtain an Software Developer position to help launch career while achieving company goals.",
+	"WorkHistory": [
+		{
+			"DateFrom": "2021-08",
+			"DateTo": "2021-09",
+			"Name": "Software Developer",
+			"Location": "Code Nation, Liverpool",
+			"Text": "• Revised, modularized and updated old code bases to modern development standards, reducing operating costs and improving functionality.\n• Completed analysis, design, and testing phases of software development life cycle.\n• Led version control efforts for organization, employing GitHub and other public and open source repositories.\n• Collaborated with project managers to select ambitious, but realistic coding milestones on pre-release software project development.\n• Introduced agile methodologies and development best practices to division to enhance product development."
+		},
+		{
+			"DateFrom": "2021-10",
+			"DateTo": "2021-11",
+			"Name": "Software Developer",
+			"Location": "Code Nation, Liverpool",
+			"Text": "• Revised, modularized and updated old code bases to modern development standards, reducing operating costs and improving functionality.\n• Completed analysis, design, and testing phases of software development life cycle.\n• Led version control efforts for organization, employing GitHub and other public and open source repositories.\n• Collaborated with project managers to select ambitious, but realistic coding milestones on pre-release software project development.\n• Introduced agile methodologies and development best practices to division to enhance product development."
+		}
+	],
+    "Education":[
+        {
+
+            "DateFrom":"2021-08",
+            "DateTo":"2021-09",
+            "Name":"IT User Skills: Open Systems And Enterprise",
+            "Location":"Code Nation, Liverpool",
+            "Text":""
+        },
+        {
+            "DateFrom":"2019",
+            "DateTo":"2020",
+            "Name":"GCSE Mathematics",
+            "Location":"Wirral Metropolitan College - Wirral",
+            "Text":""
+        },
+        {
+            "DateFrom":"2019",
+            "DateTo":"2020",
+            "Name":"Function Sills English Level 2",
+            "Location":"Wirral Metropolitan College - Wirral",
+            "Text":""
+        }
+    ],
+    "Certificate":[
+        {
+            "DateFrom":"2021-11",
+            "Name":"Cyber Security and Digital Forensics",
+            "Text":"https://awards.theingots.org/index.php?r=site/awards&award=28K-GYVN"
+        },
+        {
+            "DateFrom":"2021-09",
+            "Name":"IT User Skills (Open Systems and Enterprise)",
+            "Text":"https://awards.theingots.org/index.php?r=site/awards&award=28K-GXH1"
+        },
+        {
+            "DateFrom":"2021-09",
+            "DateTo":"",
+            "Name":"Python: TestDome",
+            "Location":"",
+            "Text":"https://app.testdome.com/cert/0e5a21fab9e54698bd65f206df312c13"
+        },
+        {
+            "DateFrom":"2021-09",
+            "DateTo":"",
+            "Name":"C#: TestDome",
+            "Location":"",
+            "Text":"https://app.testdome.com/cert/0e5a21fab9e54698bd65f206df312c13"
+        },
+        {
+            "DateFrom":"2021-09",
+            "DateTo":"",
+            "Name":"PHP and WordPress",
+            "Location":"",
+            "Text":"https://app.testdome.com/cert/56f349716f2f43eea9ee6847639d3b2a"
+        }
+    ]
+    
+}

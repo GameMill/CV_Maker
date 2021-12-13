@@ -217,18 +217,20 @@
 
             
             current_y = 3;
-            // To Be Complated
+
             if(Info["Summary"].length > 0 )
             {
-                
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
-                setStyle(doc,Data["Style"]["SummaryHeader"]);
-                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Summary");
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
-                    
-                current_y = 18;
+                if(document.getElementById('IncludeSummaryHeader').checked)
+                {
+                    setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                    setStyle(doc,Data["Style"]["SummaryHeader"]);
+                    doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Summary");
+                    setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                        
+                    current_y = 18;
+                }
                 setStyle(doc,Data["Style"]["SummaryText"]);
                 var lines = doc.splitTextToSize(Info["Summary"], 132);
                     
@@ -518,8 +520,15 @@
                 </table>
 
             <hr>
-            <h6>Summary</h6>
+            <h6>Summary
+                    <input class="form-check-input" type="checkbox" style="margin-left: 10vw;" checked id="IncludeSummaryHeader">
+                    <label class="form-check-label" for="IncludeSummaryHeader">
+                        Include Header
+                    </label>
+            </h6>
+            
             <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
+            
             <hr>
               <h6>Work History</h6>
               <div class="form-group row">
@@ -541,13 +550,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <button class="col-sm-7 btn btn-primary" type="button" onclick="addWorkHistory('WorkHistory')">Add</button>
-                  <div class="form-check col-sm-5">
-                    <input class="form-check-input" type="checkbox" value="" id="LiveEdit">
-                    <label class="form-check-label" for="LiveEdit">
-                        Include Header
-                    </label>
-                  </div>
+                  <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('WorkHistory')">Add</button>
                 </div>
 
               

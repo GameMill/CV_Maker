@@ -18,7 +18,6 @@ function ProgressBar(doc,x,y,width,height,BgColor,FgColor,progress)
 $(':input').keyup(function(){
     if($(this).attr('noLiveEdit') != undefined)
         return;
-    console.log("Edit");
     LiveEdit();
  });
 
@@ -30,52 +29,58 @@ function LiveEdit()
         MakePage();
     }
 }
+function LoadData(data) {
+    try {
+        Loading = true;
+        if(IsValidData(data))
+        {
+            $("#Templates").val(data["Template"]);
+            $("#Name").val(data["Name"]);
+            $("#JobTitle").val(data["JobTitle"]);
+            UpdateTemplate(data);
+            
+            ["Contact","Skill","Language"].forEach(element2 => {
+                $("#"+element2+"sList tbody").html("");
+                Object.keys(data[element2+"s"]).forEach(element => {
+                    addToList(element2,element,data[element2+"s"][element])
+                });
+            });
+
+            ["WorkHistory","Education","Certificate"].forEach(element2 => {
+                $("#"+element2+"sList tbody").html("");
+
+                data[element2].forEach(element => {
+                    addToWorkList(element2,element["DateFrom"],element["DateTo"],element["Name"],element["Location"],element["Text"])
+                });
+                
+            });
+
+
+            $("#Summary").val(data["Summary"]);
+            setTimeout(function(){ MakePage() },1000);
+            
+            Loading = false;
+        }
+        else
+        {
+            alert("Something went wrong. The file you are using is not a template file.");
+        }
+            
+    } catch (error) {
+        console.log(error);
+        alert("Something went wrong. It looks live the file your trying to load is not a json data file.");
+    };
+}
 
 $('#SaveFile').on('change', function () {
     var fileReader = new FileReader();
     fileReader.onload = function () {
         try {
             var data = JSON.parse(fileReader.result);
-            console.log(data)
-            Loading = true;
-            if(IsValidData(data))
-            {
-                $("#Templates").val(data["Template"]);
-                $("#Name").val(data["Name"]);
-                $("#JobTitle").val(data["JobTitle"]);
-                UpdateTemplate(data);
-                
-                ["Contact","Skill","Language"].forEach(element2 => {
-                    $("#"+element2+"sList tbody").html("");
-                    Object.keys(data[element2+"s"]).forEach(element => {
-                        addToList(element2,element,data[element2+"s"][element])
-                    });
-                });
-
-                ["WorkHistory","Education","Certificate"].forEach(element2 => {
-                    $("#"+element2+"sList tbody").html("");
-
-                    data[element2].forEach(element => {
-                        addToWorkList(element2,element["DateFrom"],element["DateTo"],element["Name"],element["Location"],element["Text"])
-                    });
-                    
-                });
-
-
-                $("#Summary").val(data["Summary"]);
-                setTimeout(function(){ MakePage() },1000);
-                
-                Loading = false;
-            }
-            else
-            {
-                alert("Something went wrong. The file you are using is not a template file.");
-            }
-                
+            loadData(data)
         } catch (error) {
-            console.log(error);
-            alert("Something went wrong. It looks live the file your trying to load is not a json data file.");
-        };
+            alert(error)
+        }
     };
     fileReader.readAsText($('#SaveFile').prop('files')[0]);
 });  
@@ -113,9 +118,11 @@ function addToWorkList(domName, datefrom,dateto,name,location,text)
 };
 
 function ProgressToNameConverter(precentage){
-    if(precentage >= 90)
-        return "Great";
     if(precentage >= 75)
+        return "Excellent";
+    else if(precentage >= 75)
+        return "Great";
+    else if(precentage >= 65)
         return "Very Good";
     else if(precentage >= 50)
         return "Good";
@@ -149,7 +156,6 @@ function ShowLargeEditor(from)
     TextAreaToModel = from;
     $('#myModal textarea').val($(TextAreaToModel).val());
     $('#myModal').modal('show');
-    console.log("Show");
 };
 $('#myModal').on('hidden.bs.modal', function () {
     $(TextAreaToModel).val($('#myModal textarea').val());
@@ -210,3 +216,12 @@ function addWorkHistory(domName)
 
 
 UpdateTemplate()
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const WitchCV = urlParams.get('CV')
+if (WitchCV != null) {
+    $.get( "SavedCVs/"+WitchCV+".json", function( data ) {
+        LoadData(data)
+      });
+}
