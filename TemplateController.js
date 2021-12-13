@@ -118,7 +118,7 @@ function addToWorkList(domName, datefrom,dateto,name,location,text)
 };
 
 function ProgressToNameConverter(precentage){
-    if(precentage >= 75)
+    if(precentage >= 90)
         return "Excellent";
     else if(precentage >= 75)
         return "Great";
