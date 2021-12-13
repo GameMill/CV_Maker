@@ -76,7 +76,7 @@
             "Width":65,
             "Color":[50,50,50],
             "Font":["Helvetica",""],
-            "FontSize":11
+            "FontSize":10.5
         },
 
         "WorkHistoryText":{
@@ -85,7 +85,7 @@
             "Width":65,
             "Color":[50,50,50],
             "Font":["Helvetica",""],
-            "FontSize":11
+            "FontSize":10.5
         },
         "WorkHistoryName":{
             "X":110,
