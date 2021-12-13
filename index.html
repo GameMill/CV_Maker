@@ -32,7 +32,7 @@
                 "Summary":$("#Summary").val(),
                 "WorkHistory":[],
                 "Education":[],
-                "Certificates":[]
+                "Certificate":[]
 
             };
             
@@ -46,22 +46,25 @@
                 });
             });
 
-            $("#WorkHistorysList tbody > tr").each(function () 
-            { 
-                var children = $(this).children();
-                var DateFrom = $(children[0]).text();
-                var DateTo = $(children[1]).text();
-                var Name = $(children[2]).text();
-                var Location = $(children[3]).text();
-                var Text = $(children[4]).children("textarea").val();
-                Data["WorkHistory"].push({
-                    "DateFrom":DateFrom,
-                    "DateTo":DateTo,
-                    "Name":Name,
-                    "Location":Location,
-                    "Text":Text
+            ["WorkHistory","Education","Certificate"].forEach(element => {
+                $("#"+element+"sList tbody > tr").each(function () 
+                { 
+                    var children = $(this).children();
+                    var DateFrom = $(children[0]).text();
+                    var DateTo = $(children[1]).text();
+                    var Name = $(children[2]).text();
+                    var Location = $(children[3]).text();
+                    var Text = $(children[4]).children("textarea").val();
+                    Data[element].push({
+                        "DateFrom":DateFrom,
+                        "DateTo":DateTo,
+                        "Name":Name,
+                        "Location":Location,
+                        "Text":Text
+                    });
                 });
             });
+            
             console.log(Data);
             return Data;
             //console.log(Data) 
@@ -249,28 +252,7 @@
                 current_y += 15;
 
                 Info["WorkHistory"].forEach(element => {
-                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
-                    
-                    setStyle(doc,Data["Style"]["WorkHistoryName"]);
-                    doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y,element["Name"]);
-                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
-                    doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y+5,element["Location"]);
-                    setStyle(doc,Data["Style"]["WorkHistoryText"]);
-
-                    doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,"From: "+element["DateFrom"]);
-                    txtWidth = (doc.GetWidth("From: ") - doc.GetWidth("To: "))-.4
-                    doc.text(Data["Style"]["WorkHistoryText"]["X"]+txtWidth,current_y+5,"To: "+element["DateTo"]);
-                    current_y += 5
-                    //doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,);
-                    element["Text"].split(/\r?\n/).forEach(Lines => {
-                        console.log(lines)
-                        doc.splitTextToSize(Lines, 132).forEach(Line => {
-                            doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,Line);
-                            current_y += doc.getTextDimensions(Line)["h"]*1.1;
-                        });
-                        current_y += 1
-                    });
-                    current_y += 10
+                    current_y = WorkHistoryDraw(doc,element,current_y)
                 });
             }
             current_y -= 5
@@ -284,10 +266,13 @@
                 doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Education");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
-                current_y+= 12
+                current_y+= 15
+                Info["Education"].forEach(element => {
+                    current_y = WorkHistoryDraw(doc,element,current_y)
+                });
             }
-
-            if(Info["Certificates"].length > 0)
+            current_y -= 5
+            if(Info["Certificate"].length > 0)
             {
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
@@ -295,13 +280,48 @@
                 doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Certificates");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                current_y+= 15
+                Info["Certificate"].forEach(element => {
+                    current_y = WorkHistoryDraw(doc,element,current_y)
+                });
+                current_y -= 5
+
             }
             
 
             $("#frame").attr('src', doc.output('datauristring'))
 
         }
+        function WorkHistoryDraw(doc,element,current_y)
+        {
+            setStyle(doc,Data["Style"]["WorkHistoryText"]);
+                    
+            setStyle(doc,Data["Style"]["WorkHistoryName"]);
+            doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y,element["Name"]);
+            setStyle(doc,Data["Style"]["WorkHistoryText"]);
+            doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y+5,element["Location"]);
+            setStyle(doc,Data["Style"]["WorkHistoryText"]);
 
+            if(element["DateTo"] == "")
+                doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,element["DateFrom"]);
+            else
+                doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,"From: "+element["DateFrom"]);
+            txtWidth = (doc.GetWidth("From: ") - doc.GetWidth("To: "))-.4
+            if(element["DateTo"] != "")
+                doc.text(Data["Style"]["WorkHistoryText"]["X"]+txtWidth,current_y+5,"To: "+element["DateTo"]);
+            if(element["DateTo"] != "" || element["Location"] != "")
+                current_y += 5;
+
+            element["Text"].split(/\r?\n/).forEach(Lines => {
+                doc.splitTextToSize(Lines, 132).forEach(Line => {
+                    doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,Line);
+                    current_y += doc.getTextDimensions(Line)["h"]*1.1;
+                });
+                current_y += 1;
+            });
+            current_y += 7;
+            return current_y;
+        }
         function Draw(doc,text,data,current_y)
         {
             doc.setFont(data["Font"][0],Data["Style"]["Contact"]["Font"][1])
@@ -521,7 +541,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory()">Add</button>
+                  <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('WorkHistory')">Add</button>
                 </div>
 
               
@@ -542,7 +562,89 @@
                   </tbody>
                 </table>
   
+                <hr>
+                <h6>Education</h6>
+                <div class="form-group row">
+                    <label for="EducationFrom" class="col-sm-1 col-form-label" style="text-align: right;">From:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="EducationFrom" noLiveEdit="1">
+                    </div>
+                    <label for="EducationTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="EducationTo" noLiveEdit="1">
+                    </div>
+                    <label for="EducationName" class="col-sm-1 col-form-label" style="text-align: right;">Name:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="EducationName" noLiveEdit="1">
+                    </div>
+                    <label for="EducationLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="EducationLocation" noLiveEdit="1">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Education')">Add</button>
+                  </div>
+  
+                
+    
+                <table id="EducationsList" class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Text</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+    
+                    </tbody>
+                  </table>
 
+                  <hr>
+                  <h6>Certificates</h6>
+                  <div class="form-group row">
+                      <label for="CertificateFrom" class="col-sm-1 col-form-label" style="text-align: right;">From:</label>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateFrom" noLiveEdit="1">
+                      </div>
+                      <label for="CertificateTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateTo" noLiveEdit="1">
+                      </div>
+                      <label for="CertificateName" class="col-sm-1 col-form-label" style="text-align: right;">Name:</label>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control" id="CertificateName" noLiveEdit="1">
+                      </div>
+                      <label for="CertificateLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control" id="CertificateLocation" noLiveEdit="1">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Certificate')">Add</button>
+                    </div>
+    
+                  
+      
+                  <table id="CertificatesList" class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">From</th>
+                          <th scope="col">To</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Location</th>
+                          <th scope="col">Text</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+      
+                      </tbody>
+                    </table>
 
             <button type="button" onclick="MakePage()">Render</button>
 

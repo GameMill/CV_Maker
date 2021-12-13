@@ -51,10 +51,17 @@ $('#SaveFile').on('change', function () {
                         addToList(element2,element,data[element2+"s"][element])
                     });
                 });
-                
-                data["WorkHistory"].forEach(element => {
-                    addToWorkList(element["DateFrom"],element["DateTo"],element["Name"],element["Location"],element["Text"])
+
+                ["WorkHistory","Education","Certificate"].forEach(element2 => {
+                    $("#"+element2+"sList tbody").html("");
+
+                    data[element2].forEach(element => {
+                        addToWorkList(element2,element["DateFrom"],element["DateTo"],element["Name"],element["Location"],element["Text"])
+                    });
+                    
                 });
+
+
                 $("#Summary").val(data["Summary"]);
                 setTimeout(function(){ MakePage() },1000);
                 
@@ -88,11 +95,21 @@ function addToList(domName,name,value)
     $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
 };
 
-function addToWorkList(datefrom,dateto,name,location,text)
+function addToWorkList(domName, datefrom,dateto,name,location,text)
 {
-    if(datefrom == "" || dateto == "" || name == "" || location == "")
+    if(datefrom == "" && dateto == "" && name == "" && location == "")
         return;
-    $('#WorkHistorysList > tbody:last-child').append('<tr><td>'+datefrom+'</td><td>'+dateto+'</td><td>'+name+'</td><td>'+location+'</td><td><textarea onclick="ShowLargeEditor(this)">'+text+'</textarea></td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
+    if(datefrom == undefined)
+        datefrom = "";
+    if (dateto == undefined) 
+        dateto = "";
+    if(name == undefined)
+        name = "";
+    if(location == undefined)
+        location = "";
+    if(text == undefined)
+        text = "";
+    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+datefrom+'</td><td>'+dateto+'</td><td>'+name+'</td><td>'+location+'</td><td><textarea onclick="ShowLargeEditor(this)">'+text+'</textarea></td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
 };
 
 function ProgressToNameConverter(precentage){
@@ -140,17 +157,17 @@ $('#myModal').on('hidden.bs.modal', function () {
     LiveEdit();
 });
 
-function addWorkHistory()
+function addWorkHistory(domName)
 {
-    from = $('#WorkHistoryFrom').val();
-    to = $('#WorkHistoryTo').val();
-    _name = $('#WorkHistoryName').val();
-    _location = $('#WorkHistoryLocation').val();
-    addToWorkList(from,to,_name,_location,"")
-    $('#WorkHistoryFrom').val("");
-    $('#WorkHistoryTo').val("");
-    $('#WorkHistoryName').val("");
-    $('#WorkHistoryLocation').val("");
+    from = $('#'+domName+'From').val();
+    to = $('#'+domName+'To').val();
+    _name = $('#'+domName+'Name').val();
+    _location = $('#'+domName+'Location').val();
+    addToWorkList(domName,from,to,_name,_location,"")
+    $('#W'+domName+'From').val("");
+    $('#'+domName+'To').val("");
+    $('#'+domName+'Name').val("");
+    $('#'+domName+'Location').val("");
 }
 
 (function(API){
