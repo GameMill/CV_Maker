@@ -1,7 +1,7 @@
 Loading = false;
 function UpdateTemplate()
 {
-        $.getJSON( "/Templates/"+$('#Templates').find(":selected").attr("value")+".json", function( data ) {
+        $.getJSON( "./Templates/"+$('#Templates').find(":selected").attr("value")+".json", function( data ) {
             LoadTemplate(data);
         });
 }
