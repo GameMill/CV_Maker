@@ -77,7 +77,7 @@ $('#SaveFile').on('change', function () {
     fileReader.onload = function () {
         try {
             var data = JSON.parse(fileReader.result);
-            loadData(data)
+            LoadData(data)
         } catch (error) {
             alert(error)
         }
