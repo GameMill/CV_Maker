@@ -65,9 +65,7 @@
                 });
             });
             
-            console.log(Data);
             return Data;
-            //console.log(Data) 
            // download(Data["Name"]+".json",JSON.stringify(Data))
         }
 
@@ -84,9 +82,9 @@
             var doc = new jsPDF();
             doc.title = Info["Name"]+" CV";
             
-            console.log(doc.getFontList());
+            //console.log(doc.getFontList());
 
-            console.log(doc.internal.pageSize.getWidth(),doc.internal.pageSize.getHeight());
+            //console.log(doc.internal.pageSize.getWidth(),doc.internal.pageSize.getHeight());
 
             if(Data["AddFeatures"] != undefined)
             {
