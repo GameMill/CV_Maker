@@ -216,18 +216,18 @@
             }
 
             
-            current_y = 3;
+            current_y = 5;
 
             if(Info["Summary"].length > 0 )
             {
                 if(document.getElementById('IncludeSummaryHeader').checked)
                 {
                     setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y-2,132,.5,'F');
                     setStyle(doc,Data["Style"]["SummaryHeader"]);
-                    doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Summary");
+                    doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+4.5,"Summary");
                     setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+7,132,.5,'F');
                         
                     current_y = 18;
                 }
@@ -330,7 +330,7 @@
             current_y += 7;
             return current_y;
         }
-        
+
         function Draw(doc,text,data,current_y)
         {
             doc.setFont(data["Font"][0],Data["Style"]["Contact"]["Font"][1])
