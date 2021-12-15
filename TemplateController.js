@@ -46,6 +46,9 @@ function LoadData(data) {
                 });
             });
 
+            document.getElementById('LiveEdit').checked = data["LiveEdit"];
+            document.getElementById('IncludeSummaryHeader').checked = data["IncludeSummaryHeader"];
+
             ["WorkHistory","Education","Certificate"].forEach(element2 => {
                 $("#"+element2+"sList tbody").html("");
 
