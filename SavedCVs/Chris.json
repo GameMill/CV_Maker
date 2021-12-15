@@ -39,7 +39,7 @@
 			"DateTo": "2021-11",
 			"Name": "Cyber Security",
 			"Location": "Code Nation, Liverpool",
-			"Text": "• Updated old PHP (PHP: Hypertext Pre-processor) codebases to modern development standards to help secure the LAMP (Linux, Apache, MySQL, PHP) server.\n• Used Programs Like Nmap to test for vulnerabilities and Exposures and research the best ways to secure against these types of attacks.\n• Led a team of 3 people to secure a LAMP (Linux, Apache, MySQL, PHP) server against the latest kinds of threats using CVEs (Common Vulnerabilities and Exposures). \n• Collaborated with the team to select realistic targets for securing the server using the SMART (Specific, Measurable, Attainable, Realistic, Time-based) approach.\n• Kept records of all changes made to the LAMP (Linux, Apache, MySQL, PHP) server."
+			"Text": "• Updated old PHP (PHP: Hypertext Pre-processor) code to protect against SQL injection and secure the LAMP (Linux, Apache, MySQL, PHP) server.\n• Used Programs Like Nmap to test for vulnerabilities and Exposures and research the best ways to secure against these types of attacks.\n• Led a team of 3 people to secure a LAMP (Linux, Apache, MySQL, PHP) server against the latest kinds of threats using CVEs (Common Vulnerabilities and Exposures). \n• Collaborated with the team to select realistic targets for securing the server using the SMART (Specific, Measurable, Attainable, Realistic, Time-based) approach.\n• Kept records of all changes made to the LAMP (Linux, Apache, MySQL, PHP) server."
 		}
 	],
 	"Education": [
