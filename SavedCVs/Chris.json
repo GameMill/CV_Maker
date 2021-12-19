@@ -15,14 +15,14 @@
 	"Skills": {
 		"Software Development": "75",
 		"Programming": "75",
-		"API design knowledge": "80",
-		"Agile": "60"
+		"API design knowledge": "80"
 	},
 	"Languages": {
 		"C#": "85",
 		"PHP": "80",
 		"Python": "82",
-		"HTML and Javascript": "75",
+		"HTML - Bootstrap":"75",
+		"Javascript": "75",
 		"Node.js": "49"
 	},
 	"IncludeSummaryHeader": false,
