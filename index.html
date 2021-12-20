@@ -134,8 +134,6 @@
                             if(key == element) 
                             {
                                 setStyle(doc,Data["Style"]["ContactIcon"]);
-
-                                console.log(`${key}: ${value}`);
                                 doc.text(Data["Style"]["ContactIcon"]["X"],IconY,value,{align:Data["Style"]["ContactIcon"]["Align"]});
                                 setStyle(doc,Data["Style"]["ContactIcon2"]);
                                 doc.text(Data["Style"]["ContactIcon2"]["X"],IconY-1,Info["Contacts"][element] + " ",{align:Data["Style"]["ContactIcon"]["Align"]});
@@ -554,6 +552,8 @@
                       <th scope="col">Name</th>
                       <th scope="col">Value</th>
                       <th scope="col"></th>
+                      <th scope="col">Up</th>
+                      <th scope="col">Down</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -606,6 +606,8 @@
                       <th scope="col">Location</th>
                       <th scope="col">Text</th>
                       <th scope="col"></th>
+                      <th scope="col">Up</th>
+                      <th scope="col">Down</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -648,6 +650,7 @@
                         <th scope="col">Location</th>
                         <th scope="col">Text</th>
                         <th scope="col"></th>
+
                       </tr>
                     </thead>
                     <tbody>

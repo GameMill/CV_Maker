@@ -108,7 +108,7 @@ function addToList(domName,name,value)
 {
     if(name == "" || value == "")
         return;
-    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
+    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button type="button" class="btn btn-danger" onclick="removeFromTable(this)">X</button></td><td><button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">UP</button></td><td><button type="button"class="btn btn-outline-primary" onclick="moveDown(this)">Down</button></td></tr>');
 };
 
 function addToWorkList(domName, datefrom,dateto,name,location,text)
@@ -125,7 +125,7 @@ function addToWorkList(domName, datefrom,dateto,name,location,text)
         location = "";
     if(text == undefined)
         text = "";
-    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+datefrom+'</td><td>'+dateto+'</td><td>'+name+'</td><td>'+location+'</td><td><textarea onclick="ShowLargeEditor(this)">'+text+'</textarea></td><td><button onclick="removeFromTable(this)">-</button></td></tr>');
+    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+datefrom+'</td><td>'+dateto+'</td><td>'+name+'</td><td>'+location+'</td><td><textarea onclick="ShowLargeEditor(this)">'+text+'</textarea></td><td><button onclick="removeFromTable(this)">-</button></td><td><button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">UP</button></td><td><button type="button"class="btn btn-outline-primary" onclick="moveDown(this)">Down</button></td></tr>');
 };
 
 function ProgressToNameConverter(precentage){
@@ -146,6 +146,20 @@ function ProgressToNameConverter(precentage){
 function removeFromTable(dom)
 {
     $(dom).parent().parent().remove();
+    LiveEdit();
+};
+
+function moveUp(dom)
+{
+    let e = $(dom).parent().parent()
+    e.prev().insertAfter(e);
+    LiveEdit();
+};
+
+function moveDown(dom)
+{
+    let e = $(dom).parent().parent()
+    e.next().insertBefore(e);
     LiveEdit();
 };
 
@@ -224,7 +238,10 @@ function addWorkHistory(domName)
     }
 })(jsPDF.API);
 
-
+Array.prototype.move = function (from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+  };
+  
 
 UpdateTemplate()
 
