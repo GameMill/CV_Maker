@@ -124,11 +124,37 @@
                     setStyle(doc,Data["Style"]["JobTitle"]);
                     current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"] ,Data["Style"]["JobTitle"]["Width"]);
                 }
+                if(Data["SpecialFeatures"]["WebsiteBar"] != undefined)
+                {
+                    
+                    IconY=Data["Style"]["ContactIcon"]["IconY"];
+                    Object.keys(Info["Contacts"]).forEach(element => {
+                        
+                        for (const [key, value] of Object.entries(Data["SpecialFeatures"]["WebsiteBar"]["Icons"])) {
+                            if(key == element) 
+                            {
+                                setStyle(doc,Data["Style"]["ContactIcon"]);
+
+                                console.log(`${key}: ${value}`);
+                                doc.text(Data["Style"]["ContactIcon"]["X"],IconY,value,{align:Data["Style"]["ContactIcon"]["Align"]});
+                                setStyle(doc,Data["Style"]["ContactIcon2"]);
+                                doc.text(Data["Style"]["ContactIcon2"]["X"],IconY-1,Info["Contacts"][element] + " ",{align:Data["Style"]["ContactIcon"]["Align"]});
+                                delete Info["Contacts"][element];
+                                IconY += 7;
+                                break;
+                            }
+                        }  
+                        
+                        
+                    });
+                }
+                current_y += Data["Style"]["SideBarHeader"]["StartY"]
 
                 // Contact
                 if(Object.keys(Info["Contacts"]).length > 0 )
                 {
                     if(Data["Style"]["SideBarHeader"] != undefined){
+
                         doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
                         doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F');
                     }
@@ -141,11 +167,11 @@
 
                     Object.keys(Info["Contacts"]).forEach(element => {
                         setStyle(doc,Data["Style"]["ContactTitle"]);
-                        doc.text(2,current_y+5,element+":");
+                        doc.text(Data["Style"]["ContactTitle"]["X"],current_y+5,element+":",{align:Data["Style"]["ContactTitle"]["Align"]});
                         setStyle(doc,Data["Style"]["ContactURL"]);
                         y = 0;
                         doc.splitTextToSize(Info["Contacts"][element], 60).forEach(element2 => {
-                            doc.text(2,current_y+10+y,element2);
+                            doc.text(Data["Style"]["ContactURL"]["X"],current_y+10+y,element2,{align:Data["Style"]["ContactTitle"]["Align"]});
                             y += 5;
                         });
                         current_y += 7+y;
@@ -171,12 +197,12 @@
                 {
                     Object.keys(Info["Skills"]).forEach(element => {
                         setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(2,current_y+4,element+":");
+                        doc.text(Data["Style"]["SkillsTitle"]["X"],current_y+4,element+":",{align:Data["Style"]["SkillsTitle"]["Align"]});
                         if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+7,60,3,[0,49,92],[230,230,240],Info["Skills"][element]);
+                            ProgressBar(doc,2,current_y+7,Data["SpecialFeatures"]["ProgressBar"]["Width"],3,Data["SpecialFeatures"]["ProgressBar"]["BGColor"],Data["SpecialFeatures"]["ProgressBar"]["FGColor"],Info["Skills"][element]);
                         
                         setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(60,current_y+14,ProgressToNameConverter(Info["Skills"][element]),{align:"right"});
+                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"],current_y+14,ProgressToNameConverter(Info["Skills"][element]),{align:Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"]});
 
                         current_y += 15;
                     });
@@ -191,7 +217,7 @@
                         doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
                         doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F');
                     }
-                    Draw(doc,"Language",Data["Style"]["Contact"],current_y-2);
+                    Draw(doc,"Language",Data["Style"]["Contact"],current_y-3);
                     current_y += 9;
                 }
 
@@ -201,12 +227,13 @@
                 {
                     Object.keys(Info["Languages"]).forEach(element => {
                         setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(2,current_y+4,element+":");
+                        doc.text(Data["Style"]["SkillsTitle"]["X"],current_y+4,element+":",{align:Data["Style"]["SkillsTitle"]["Align"]});
                         if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+7,60,3,[0,49,92],[230,230,240],Info["Languages"][element]);
+                            ProgressBar(doc,2,current_y+7,Data["SpecialFeatures"]["ProgressBar"]["Width"],3,Data["SpecialFeatures"]["ProgressBar"]["BGColor"],Data["SpecialFeatures"]["ProgressBar"]["FGColor"],Info["Languages"][element]);
+
                         
                         setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(60,current_y+14,ProgressToNameConverter(Info["Languages"][element]),{align:"right"});
+                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"],current_y+14,ProgressToNameConverter(Info["Languages"][element]),{align:Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"]});
 
                         current_y += 15;
                     });
@@ -216,23 +243,23 @@
             }
 
             
-            current_y = 5;
+            current_y = Data["Style"]["SummaryHeader"]['Y'];
 
             if(Info["Summary"].length > 0 )
             {
                 if(document.getElementById('IncludeSummaryHeader').checked)
                 {
                     setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y-2,132,.5,'F');
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y-2,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                     setStyle(doc,Data["Style"]["SummaryHeader"]);
                     doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+4.5,"Summary");
                     setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+7,132,.5,'F');
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+7,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                         
-                    current_y = 18;
+                    current_y += 15;
                 }
                 setStyle(doc,Data["Style"]["SummaryText"]);
-                var lines = doc.splitTextToSize(Info["Summary"], 132);
+                var lines = doc.splitTextToSize(Info["Summary"], Data["Style"]["SummaryText"]["Width"]);
                     
                 lastVh = 0;
                 lines.forEach(element => {
@@ -245,12 +272,14 @@
             }
             if(Info["WorkHistory"].length > 0 )
             {
+                current_y -= 2
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(70,current_y,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                 setStyle(doc,Data["Style"]["SummaryHeader"]);
-                doc.text(72,current_y+7,"Work History");
+                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Work History");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(70,current_y+9,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
+
                 current_y += 15;
 
                 Info["WorkHistory"].forEach(element => {
@@ -263,11 +292,11 @@
             if(Info["Education"].length > 0)
             {
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                 setStyle(doc,Data["Style"]["SummaryHeader"]);
                 doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Education");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                 current_y+= 15
                 Info["Education"].forEach(element => {
                     current_y = WorkHistoryDraw(doc,element,current_y)
@@ -277,11 +306,11 @@
             if(Info["Certificate"].length > 0)
             {
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                 setStyle(doc,Data["Style"]["SummaryHeader"]);
                 doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Certificates");
                 setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,132,.5,'F');
+                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
                 current_y+= 15
                 Info["Certificate"].forEach(element => {
                     current_y = WorkHistoryDraw(doc,element,current_y)
@@ -321,7 +350,7 @@
                 current_y += 5;
 
             element["Text"].split(/\r?\n/).forEach(Lines => {
-                doc.splitTextToSize(Lines, 132).forEach(Line => {
+                doc.splitTextToSize(Lines, Data["Style"]["WorkHistoryBody"]["Width"]).forEach(Line => {
                     doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,Line);
                     current_y += doc.getTextDimensions(Line)["h"]*1.1;
                 });
@@ -336,7 +365,7 @@
             doc.setFont(data["Font"][0],Data["Style"]["Contact"]["Font"][1])
             doc.setFontSize(data["FontSize"]);
             doc.setTextColor(data["Color"][0],data["Color"][1],Data["Style"]["Contact"]["Color"][2]);
-            doc.text(text, data["X"], current_y+data["Y"]);
+            doc.text(text, data["X"], current_y+data["Y"],{align:Data["Style"]["SideBarHeader"]["Align"]});
             return current_y+data["Y"]
         }
         function downloadCvDataFile()
@@ -405,9 +434,15 @@
             <div class="form-group row">
                 <label for="Templates" class="col-sm-1 col-form-label" style="text-align: right;">Templates:</label>
                 <div class="col-sm-2">
-                    <select class="form-select" id="Templates" conchange="UpdateTemplate()">
+                    <select class="form-select" id="Templates" onchange="SelectNewTemplate()">
                         <option value="Template1">
                             Blue lake 
+                        </option>
+                        <option value="Template2">
+                            Gray Ocean
+                        </option>
+                        <option value="Template3">
+                            Gray Ocean Advanced
                         </option>
                     </select>
                 </div>
@@ -685,8 +720,11 @@
       </div>
 
       
-    <script src="./css/fonts/Hash44-bold.js"></script>
-
+      <script src="./css/fonts/Hash44-bold.js"></script>
+      <script src="./css/fonts/FontAwesome5Solid-normal.js"></script>
+      <script src="./css/fonts/FontAwesome5Brands-normal.js"></script>
+      <script src="./css/fonts/Glyphter-normal.js"></script>
+      
     <script src="./TemplateController.js"></script>
 </body>
 </html>

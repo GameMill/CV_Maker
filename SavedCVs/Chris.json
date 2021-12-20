@@ -1,5 +1,5 @@
 {
-	"Template": "Template1",
+	"Template": "Template3",
 	"LiveEdit": true,
 	"Name": "Christopher Boardman",
 	"JobTitle": "Software Developer",
@@ -9,7 +9,7 @@
 		"E-Mail": "ctboardman@msn.com",
 		"LinkedIn": "https://shorturl.at/rAJQ8",
 		"Website": "https://shorturl.at/ilrC0",
-		"Github": "https://github.com/gamemill",
+		"GitHub": "https://github.com/gamemill",
 		"TryHackMe": "https://shorturl.at/mxJR8"
 	},
 	"Skills": {

@@ -1,61 +1,57 @@
 {
     "Details":{
         "TemplateVersion":1,
-        "Name":"Blue lake"
+        "Name":"Gray Ocean"
     },
 
     "Style":{
         "Name":{
             "X":0,
-            "Y":10,
-            "Width":65,
+            "Y":12,
+            "Width":210,
             "Color":[255,255,255],
-            "Font":["Helvetica","Bold"],
-            "FontSize":25
+            "Font":["Helvetica",""],
+            "FontSize":30
         },
         "JobTitle":{
             "X":0,
-            "Y":0,
-            "Align":"left",
-            "Width":65,
+            "Y":2,
+            "Width":210,
             "Color":[255,255,255],
-            "Font":["Helvetica",""],
-            "FontSize":14
+            "Font":["Helvetica","Bold"],
+            "FontSize":20
         },
         "Contact":{
-            "X":3,
-            "Y":8,
+            "X":30,
+            "Y":9,
             "Width":65,
-            "Color":[230,230,240],
-            "Font":["Times","Bold"],
-            "FontSize":18
+            "Color":[220,220,220],
+            "Font":["Helvetica","Bold"],
+            "FontSize":20
         },
         "ContactTitle":{
-            "X":2,
-            "Align":"left",
-            "Color":[255,255,255],
+            "X":56,
+            "Align":"right",
+            "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":11
         },
         "ContactURL":{
-            "X":2,
-            "Align":"left",
-            "Color":[255,255,255],
+            "X":56,
+            "Align":"right",
+            "Color":[50,50,50],
             "Font":["Helvetica",""],
             "FontSize":11
         },
         "SkillsTitle":{
-            "X":2,
-            "Align":"left",
-
-            "Color":[255,255,255],
+            "Align":"right",
+            "X":56,
+            "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":11
         },
         "SkillText":{
-            "X":2,
-
-            "Color":[255,255,255],
+            "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":8
         },
@@ -63,37 +59,38 @@
         "SideBarHeader":{
             "StartY":0,
             "X":0,
-            "Align":"left",
-            "Width":65,
+            "Align":"center",
+            "Width":61,
             "Height":8,
-            "Color":[0,49,92]
+            "Color":[50,50,50]
         },
 
         "SummaryHeader":{
-            "X":70,
-            "Y":5,
+            "X":62,
+            "Y":35,
             "Width":65,
-            "Color":[0,61,115],
+            "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":14
         },
 
         "SummaryHeaderBar":{
-            "Width":132,
+            "Width":145,
+
             "Color":[200,200,200]
         },
         
         "SummaryText":{
-            "X":70,
+            "X":65,
             "Y":0,
-            "Width":132,
+            "Width":142,
             "Color":[50,50,50],
             "Font":["Helvetica",""],
             "FontSize":10.5
         },
 
         "WorkHistoryText":{
-            "X":70,
+            "X":65,
             "Y":0,
             "Width":65,
             "Color":[50,50,50],
@@ -109,9 +106,9 @@
             "FontSize":11
         },
         "WorkHistoryBody":{
-            "X":70,
+            "X":65,
             "Y":0,
-            "Width":132,
+            "Width":142,
             "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":11
@@ -121,20 +118,29 @@
     "AddFeatures":[
         {
             "Type":"Box",
-            "Color":[0,61,115],
+            "Color":[230,230,230],
+            "X":0,
+            "Y":30,
+            "Width":60,
+            "Height":267
+        },
+        {
+            "Type":"Box",
+            "Color":[50,50,50],
             "X":0,
             "Y":0,
-            "Width":65,
-            "Height":297
+            "Width":210,
+            "Height":30
         }
+        
     ],
     "SpecialFeatures":{
         "ProgressBar":{
-            "Width":60,
-            "BGColor":[0,49,92],
-            "FGColor":[230,230,240],
-            "SmallAlign":"right",
-            "SmallX":60
+            "Width":55,
+            "BGColor":[200,200,200],
+            "FGColor":[50,50,50],
+            "SmallAlign":"left",
+            "SmallX":2
         }
     }
 }

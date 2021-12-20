@@ -1,10 +1,17 @@
-Loading = false;
+Loading = true;
 function UpdateTemplate()
 {
         $.getJSON( "./Templates/"+$('#Templates').find(":selected").attr("value")+".json", function( data ) {
             LoadTemplate(data);
         });
 }
+function SelectNewTemplate()
+{
+    UpdateTemplate();
+    setTimeout(()=>{LiveEdit()},1000);
+}
+
+
 
 function ProgressBar(doc,x,y,width,height,BgColor,FgColor,progress)
 {
@@ -32,6 +39,7 @@ function LiveEdit()
 function LoadData(data) {
     try {
         Loading = true;
+
         if(IsValidData(data))
         {
             $("#Templates").val(data["Template"]);
@@ -46,7 +54,7 @@ function LoadData(data) {
                 });
             });
 
-            document.getElementById('LiveEdit').checked = data["LiveEdit"];
+            document.getElementById('LiveEdit').checked = data["LiveEdit"]; 
             document.getElementById('IncludeSummaryHeader').checked = data["IncludeSummaryHeader"];
 
             ["WorkHistory","Education","Certificate"].forEach(element2 => {
