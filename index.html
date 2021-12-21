@@ -83,6 +83,7 @@
             // Default export is a4 paper, portrait, using milimeters for units
             var doc = new jsPDF();
             doc.title = Info["Name"]+" CV";
+            document.title = doc.title;
             
             //console.log(doc.getFontList());
 
@@ -714,7 +715,7 @@
           </div>
 
           <div class="col">
-            <iframe id="frame" style="position:fixed; width: 48%; "></iframe>
+            <iframe id="frame" style="position:fixed; width: 49%; top:0px "></iframe>
           </div>
 
         </div>
