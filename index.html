@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+        crossorigin="anonymous"></script>
     <script src="./Ext/Boxed_Texted.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <!-- <base href="https://gamemill.github.io/Website-For-Codenation/"> -->
     <script>
         var Data = null
         Debug = false;
-        function LoadTemplate(data)
-        {
+        function LoadTemplate(data) {
             $("#TemplateName").html(data["Details"]["Name"])
             Data = data;
         }
-        function GetDataObject()
-        {
+        function GetDataObject() {
             var Data = {
-                "Template":$('#Templates').find(":selected").attr("value"),
-                "LiveEdit":document.getElementById('LiveEdit').checked,
+                "Template": $('#Templates').find(":selected").attr("value"),
+                "LiveEdit": document.getElementById('LiveEdit').checked,
                 "Name": $("#Name").val(),
                 "JobTitle": $("#JobTitle").val(),
-                "Contacts":{},
-                "Skills":{},
-                "Languages":{},
+                "Contacts": {},
+                "Skills": {},
+                "Languages": {},
 
-                "Summary":$("#Summary").val(),
-                "WorkHistory":[],
-                "Education":[],
-                "Certificate":[]
+                "Summary": $("#Summary").val(),
+                "WorkHistory": [],
+                "Education": [],
+                "Certificate": []
 
             };
-            
-            ["Contacts","Skills","Languages"].forEach(element => {
-                $("#"+element+"List tbody > tr").each(function () 
-                { 
+
+            ["Contacts", "Skills", "Languages"].forEach(element => {
+                $("#" + element + "List tbody > tr").each(function () {
                     var children = $(this).children();
                     var Name = $($(children[0]).children()[0]).val();
                     var Value = $($(children[1]).children()[0]).val();
@@ -48,9 +52,8 @@
                 });
             });
 
-            ["WorkHistory","Education","Certificate"].forEach(element => {
-                $("#"+element+"sList tbody > tr").each(function () 
-                { 
+            ["WorkHistory", "Education", "Certificate"].forEach(element => {
+                $("#" + element + "sList tbody > tr").each(function () {
                     var children = $(this).children();
                     var DateFrom = $(children[0]).text();
                     var DateTo = $(children[1]).text();
@@ -58,23 +61,21 @@
                     var Location = $(children[3]).text();
                     var Text = $(children[4]).children("textarea").val();
                     Data[element].push({
-                        "DateFrom":DateFrom,
-                        "DateTo":DateTo,
-                        "Name":Name,
-                        "Location":Location,
-                        "Text":Text
+                        "DateFrom": DateFrom,
+                        "DateTo": DateTo,
+                        "Name": Name,
+                        "Location": Location,
+                        "Text": Text
                     });
                 });
             });
-            
+
             return Data;
-           // download(Data["Name"]+".json",JSON.stringify(Data))
+            // download(Data["Name"]+".json",JSON.stringify(Data))
         }
 
-        function MakePage()
-        {//W:210.0015555555555 //H:297.0000833333333
-            if(Data == null)
-            {
+        function MakePage() {//W:210.0015555555555 //H:297.0000833333333
+            if (Data == null) {
                 alert("You need to load a template file first.");
                 return;
             }
@@ -82,23 +83,21 @@
 
             // Default export is a4 paper, portrait, using milimeters for units
             var doc = new jsPDF();
-            doc.title = Info["Name"]+" CV";
+            doc.title = Info["Name"] + " CV";
             document.title = doc.title;
-            
+
             //console.log(doc.getFontList());
 
             //console.log(doc.internal.pageSize.getWidth(),doc.internal.pageSize.getHeight());
 
-            if(Data["AddFeatures"] != undefined)
-            {
+            if (Data["AddFeatures"] != undefined) {
                 Data["AddFeatures"].forEach(element => {
-                    if(element["Type"] == "Box")
-                    {
+                    if (element["Type"] == "Box") {
                         var orgcolor = doc.getDrawColor();
                         var orgcolor2 = doc.getFillColor();
-                        
-                        doc.setDrawColor(element["Color"][0],element["Color"][1],element["Color"][2]);
-                        doc.setFillColor(element["Color"][0],element["Color"][1],element["Color"][2]);
+
+                        doc.setDrawColor(element["Color"][0], element["Color"][1], element["Color"][2]);
+                        doc.setFillColor(element["Color"][0], element["Color"][1], element["Color"][2]);
                         doc.rect(element["X"], element["Y"], element["Width"], element["Height"], 'F');
                         doc.setDrawColor(orgcolor);
                         doc.setFillColor(orgcolor2);
@@ -107,101 +106,94 @@
                         orgcolor2 = undefined;
                     }
 
-                    
+
                 });
             }
 
             current_y = 0;
-            if(Data["Style"] != undefined)
-            {
-                if(Data["Style"]["Name"] != undefined){
+            if (Data["Style"] != undefined) {
+                if (Data["Style"]["Name"] != undefined) {
                     Name = Info["Name"];
-                    setStyle(doc,Data["Style"]["Name"]);
-                    current_y = doc.Boxed_Text(Name, Data["Style"]["Name"]["X"], Data["Style"]["Name"]["Y"] ,Data["Style"]["Name"]["Width"]);
+                    setStyle(doc, Data["Style"]["Name"]);
+                    current_y = doc.Boxed_Text(Name, Data["Style"]["Name"]["X"], Data["Style"]["Name"]["Y"], Data["Style"]["Name"]["Width"]);
                 }
 
-                if(Data["Style"]["JobTitle"] != undefined){
+                if (Data["Style"]["JobTitle"] != undefined) {
                     Name = Info["JobTitle"];
-                    setStyle(doc,Data["Style"]["JobTitle"]);
-                    current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"] ,Data["Style"]["JobTitle"]["Width"]);
+                    setStyle(doc, Data["Style"]["JobTitle"]);
+                    current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"], Data["Style"]["JobTitle"]["Width"]);
                 }
-                if(Data["SpecialFeatures"]["WebsiteBar"] != undefined)
-                {
-                    
-                    IconY=Data["Style"]["ContactIcon"]["IconY"];
+                if (Data["SpecialFeatures"]["WebsiteBar"] != undefined) {
+
+                    IconY = Data["Style"]["ContactIcon"]["IconY"];
                     Object.keys(Info["Contacts"]).forEach(element => {
-                        
+
                         for (const [key, value] of Object.entries(Data["SpecialFeatures"]["WebsiteBar"]["Icons"])) {
-                            if(key == element) 
-                            {
-                                setStyle(doc,Data["Style"]["ContactIcon"]);
-                                doc.text(Data["Style"]["ContactIcon"]["X"],IconY,value,{align:Data["Style"]["ContactIcon"]["Align"]});
-                                setStyle(doc,Data["Style"]["ContactIcon2"]);
-                                doc.text(Data["Style"]["ContactIcon2"]["X"],IconY-1,Info["Contacts"][element] + " ",{align:Data["Style"]["ContactIcon"]["Align"]});
+                            if (key == element) {
+                                setStyle(doc, Data["Style"]["ContactIcon"]);
+                                doc.text(Data["Style"]["ContactIcon"]["X"], IconY, value, { align: Data["Style"]["ContactIcon"]["Align"] });
+                                setStyle(doc, Data["Style"]["ContactIcon2"]);
+                                doc.text(Data["Style"]["ContactIcon2"]["X"], IconY - 1, Info["Contacts"][element] + " ", { align: Data["Style"]["ContactIcon"]["Align"] });
                                 delete Info["Contacts"][element];
                                 IconY += 7;
                                 break;
                             }
-                        }  
-                        
-                        
+                        }
+
+
                     });
                 }
                 current_y += Data["Style"]["SideBarHeader"]["StartY"]
 
                 // Contact
-                if(Object.keys(Info["Contacts"]).length > 0 )
-                {
-                    if(Data["Style"]["SideBarHeader"] != undefined){
+                if (Object.keys(Info["Contacts"]).length > 0) {
+                    if (Data["Style"]["SideBarHeader"] != undefined) {
 
-                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F');
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0], Data["Style"]["SideBarHeader"]["Color"][1], Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
 
-                    Draw(doc,"Contact",Data["Style"]["Contact"],current_y-2);
+                    Draw(doc, "Contact", Data["Style"]["Contact"], current_y - 2);
                     current_y += 8;
                 }
-                if(Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined)
-                {
+                if (Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined) {
 
                     Object.keys(Info["Contacts"]).forEach(element => {
-                        setStyle(doc,Data["Style"]["ContactTitle"]);
-                        doc.text(Data["Style"]["ContactTitle"]["X"],current_y+5,element+":",{align:Data["Style"]["ContactTitle"]["Align"]});
-                        setStyle(doc,Data["Style"]["ContactURL"]);
+                        setStyle(doc, Data["Style"]["ContactTitle"]);
+                        doc.text(Data["Style"]["ContactTitle"]["X"], current_y + 5, element + ":", { align: Data["Style"]["ContactTitle"]["Align"] });
+                        setStyle(doc, Data["Style"]["ContactURL"]);
                         y = 0;
                         doc.splitTextToSize(Info["Contacts"][element], 60).forEach(element2 => {
-                            doc.text(Data["Style"]["ContactURL"]["X"],current_y+10+y,element2,{align:Data["Style"]["ContactTitle"]["Align"]});
+                            doc.text(Data["Style"]["ContactURL"]["X"], current_y + 10 + y, element2, { align: Data["Style"]["ContactTitle"]["Align"] });
                             y += 5;
                         });
-                        current_y += 7+y;
+                        current_y += 7 + y;
                     });
                 }
                 current_y += 1;
-                
+
 
                 // Skills
-                if(Object.keys(Info["Skills"]).length > 0 )
-                {
-                    if(Data["Style"]["SideBarHeader"] != undefined){
-                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F');
+                if (Object.keys(Info["Skills"]).length > 0) {
+                    if (Data["Style"]["SideBarHeader"] != undefined) {
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0], Data["Style"]["SideBarHeader"]["Color"][1], Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
-                    
-                    Draw(doc,"Skills",Data["Style"]["Contact"],current_y-2);
+
+                    Draw(doc, "Skills", Data["Style"]["Contact"], current_y - 2);
                     current_y += 9;
                 }
 
-                
-                if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
-                {
+
+                if (Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined) {
                     Object.keys(Info["Skills"]).forEach(element => {
-                        setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(Data["Style"]["SkillsTitle"]["X"],current_y+4,element+":",{align:Data["Style"]["SkillsTitle"]["Align"]});
-                        if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+7,Data["SpecialFeatures"]["ProgressBar"]["Width"],3,Data["SpecialFeatures"]["ProgressBar"]["BGColor"],Data["SpecialFeatures"]["ProgressBar"]["FGColor"],Info["Skills"][element]);
-                        
-                        setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"],current_y+14,ProgressToNameConverter(Info["Skills"][element]),{align:Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"]});
+                        setStyle(doc, Data["Style"]["SkillsTitle"]);
+                        doc.text(Data["Style"]["SkillsTitle"]["X"], current_y + 4, element + ":", { align: Data["Style"]["SkillsTitle"]["Align"] });
+                        if (Data["Style"]["SkillBarType"] == "ProgressBar")
+                            ProgressBar(doc, 2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Skills"][element]);
+
+                        setStyle(doc, Data["Style"]["SkillText"]);
+                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Skills"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
 
                         current_y += 15;
                     });
@@ -209,149 +201,141 @@
                 current_y += 1
 
 
-                if(Object.keys(Info["Languages"]).length > 0 )
-                {
+                if (Object.keys(Info["Languages"]).length > 0) {
                     // Language
-                    if(Data["Style"]["SideBarHeader"] != undefined){
-                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0],Data["Style"]["SideBarHeader"]["Color"][1],Data["Style"]["SideBarHeader"]["Color"][2]);
-                        doc.rect(Data["Style"]["SideBarHeader"]["X"],current_y,Data["Style"]["SideBarHeader"]["Width"],Data["Style"]["SideBarHeader"]["Height"],'F');
+                    if (Data["Style"]["SideBarHeader"] != undefined) {
+                        doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0], Data["Style"]["SideBarHeader"]["Color"][1], Data["Style"]["SideBarHeader"]["Color"][2]);
+                        doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
-                    Draw(doc,"Language",Data["Style"]["Contact"],current_y-3);
+                    Draw(doc, "Language", Data["Style"]["Contact"], current_y - 3);
                     current_y += 9;
                 }
 
-                
 
-                if(Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined)
-                {
+
+                if (Data["Style"]["Contact"] != undefined && Data["Style"]["SkillsTitle"] != undefined && Data["Style"]["SkillText"] != undefined && Data["Style"]["SkillBarType"] != undefined) {
                     Object.keys(Info["Languages"]).forEach(element => {
-                        setStyle(doc,Data["Style"]["SkillsTitle"]);
-                        doc.text(Data["Style"]["SkillsTitle"]["X"],current_y+4,element+":",{align:Data["Style"]["SkillsTitle"]["Align"]});
-                        if(Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc,2,current_y+7,Data["SpecialFeatures"]["ProgressBar"]["Width"],3,Data["SpecialFeatures"]["ProgressBar"]["BGColor"],Data["SpecialFeatures"]["ProgressBar"]["FGColor"],Info["Languages"][element]);
+                        setStyle(doc, Data["Style"]["SkillsTitle"]);
+                        doc.text(Data["Style"]["SkillsTitle"]["X"], current_y + 4, element + ":", { align: Data["Style"]["SkillsTitle"]["Align"] });
+                        if (Data["Style"]["SkillBarType"] == "ProgressBar")
+                            ProgressBar(doc, 2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Languages"][element]);
 
-                        
-                        setStyle(doc,Data["Style"]["SkillText"]);
-                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"],current_y+14,ProgressToNameConverter(Info["Languages"][element]),{align:Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"]});
+
+                        setStyle(doc, Data["Style"]["SkillText"]);
+                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Languages"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
 
                         current_y += 15;
                     });
                 }
-                
+
 
             }
 
-            
+
             current_y = Data["Style"]["SummaryHeader"]['Y'];
 
-            if(Info["Summary"].length > 0 )
-            {
-                if(document.getElementById('IncludeSummaryHeader').checked)
-                {
-                    setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y-2,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                    setStyle(doc,Data["Style"]["SummaryHeader"]);
-                    doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+4.5,"Summary");
-                    setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                    doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+7,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                        
+            if (Info["Summary"].length > 0) {
+                if (document.getElementById('IncludeSummaryHeader').checked) {
+                    setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y - 2, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                    setStyle(doc, Data["Style"]["SummaryHeader"]);
+                    doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 4.5, "Summary");
+                    setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                    doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y + 7, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+
                     current_y += 15;
                 }
-                setStyle(doc,Data["Style"]["SummaryText"]);
+                setStyle(doc, Data["Style"]["SummaryText"]);
                 var lines = doc.splitTextToSize(Info["Summary"], Data["Style"]["SummaryText"]["Width"]);
-                    
+
                 lastVh = 0;
                 lines.forEach(element => {
-                    doc.text(Data["Style"]["SummaryText"]["X"],current_y,element);
-                    h = doc.getTextDimensions(element)["h"]*1.1;
-                    if(h > 0)
+                    doc.text(Data["Style"]["SummaryText"]["X"], current_y, element);
+                    h = doc.getTextDimensions(element)["h"] * 1.1;
+                    if (h > 0)
                         lastVh = h;
                     current_y += lastVh;
                 });
             }
-            if(Info["WorkHistory"].length > 0 )
-            {
+            if (Info["WorkHistory"].length > 0) {
                 current_y -= 2
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                setStyle(doc,Data["Style"]["SummaryHeader"]);
-                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Work History");
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                setStyle(doc, Data["Style"]["SummaryHeader"]);
+                doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 6.5, "Work History");
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y + 9, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
 
                 current_y += 15;
 
                 Info["WorkHistory"].forEach(element => {
-                    current_y = WorkHistoryDraw(doc,element,current_y)
+                    current_y = WorkHistoryDraw(doc, element, current_y)
                 });
             }
             current_y -= 5
             //Education
 
-            if(Info["Education"].length > 0)
-            {
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                setStyle(doc,Data["Style"]["SummaryHeader"]);
-                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Education");
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                current_y+= 15
+            if (Info["Education"].length > 0) {
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                setStyle(doc, Data["Style"]["SummaryHeader"]);
+                doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 6.5, "Education");
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y + 9, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                current_y += 15
                 Info["Education"].forEach(element => {
-                    current_y = WorkHistoryDraw(doc,element,current_y)
+                    current_y = WorkHistoryDraw(doc, element, current_y)
                 });
             }
             current_y -= 5
-            if(Info["Certificate"].length > 0)
-            {
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                setStyle(doc,Data["Style"]["SummaryHeader"]);
-                doc.text(Data["Style"]["SummaryHeader"]["X"]+2,current_y+6.5,"Certificates");
-                setStyle(doc,Data["Style"]["SummaryHeaderBar"]);
-                doc.rect(Data["Style"]["SummaryHeader"]["X"],current_y+9,Data["Style"]["SummaryHeaderBar"]["Width"],.5,'F');
-                current_y+= 15
+            if (Info["Certificate"].length > 0) {
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                setStyle(doc, Data["Style"]["SummaryHeader"]);
+                doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 6.5, "Certificates");
+                setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
+                doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y + 9, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
+                current_y += 15
                 Info["Certificate"].forEach(element => {
-                    current_y = WorkHistoryDraw(doc,element,current_y)
+                    current_y = WorkHistoryDraw(doc, element, current_y)
                 });
                 current_y -= 5
 
             }
-            
-            setStyle(doc,{
-                "Color":[200,200,200],
-                "Font":["Helvetica",""],
-                "FontSize":9
+
+            setStyle(doc, {
+                "Color": [200, 200, 200],
+                "Font": ["Helvetica", ""],
+                "FontSize": 9
             });
-            doc.text(95,doc.internal.pageSize.getHeight()-1,"Made Using https://gamemill.github.io/CV_Maker/");
+            doc.text(95, doc.internal.pageSize.getHeight() - 1, "Made Using https://gamemill.github.io/CV_Maker/");
 
             $("#frame").attr('src', doc.output('datauristring'))
 
         }
-        function WorkHistoryDraw(doc,element,current_y)
-        {
-            setStyle(doc,Data["Style"]["WorkHistoryText"]);
-                    
-            setStyle(doc,Data["Style"]["WorkHistoryName"]);
-            doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y,element["Name"]);
-            setStyle(doc,Data["Style"]["WorkHistoryText"]);
-            doc.text(Data["Style"]["WorkHistoryName"]["X"],current_y+5,element["Location"]);
-            setStyle(doc,Data["Style"]["WorkHistoryText"]);
+        function WorkHistoryDraw(doc, element, current_y) {
+            setStyle(doc, Data["Style"]["WorkHistoryText"]);
 
-            if(element["DateTo"] == "")
-                doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,element["DateFrom"]);
+            setStyle(doc, Data["Style"]["WorkHistoryName"]);
+            doc.text(Data["Style"]["WorkHistoryName"]["X"], current_y, element["Name"]);
+            setStyle(doc, Data["Style"]["WorkHistoryText"]);
+            doc.text(Data["Style"]["WorkHistoryName"]["X"], current_y + 5, element["Location"]);
+            setStyle(doc, Data["Style"]["WorkHistoryText"]);
+
+            if (element["DateTo"] == "")
+                doc.text(Data["Style"]["WorkHistoryText"]["X"], current_y, element["DateFrom"]);
             else
-                doc.text(Data["Style"]["WorkHistoryText"]["X"],current_y,"From: "+element["DateFrom"]);
-            txtWidth = (doc.GetWidth("From: ") - doc.GetWidth("To: "))-.4
-            if(element["DateTo"] != "")
-                doc.text(Data["Style"]["WorkHistoryText"]["X"]+txtWidth,current_y+5,"To: "+element["DateTo"]);
-            if(element["DateTo"] != "" || element["Location"] != "")
+                doc.text(Data["Style"]["WorkHistoryText"]["X"], current_y, "From: " + element["DateFrom"]);
+            txtWidth = (doc.GetWidth("From: ") - doc.GetWidth("To: ")) - .4
+            if (element["DateTo"] != "")
+                doc.text(Data["Style"]["WorkHistoryText"]["X"] + txtWidth, current_y + 5, "To: " + element["DateTo"]);
+            if (element["DateTo"] != "" || element["Location"] != "")
                 current_y += 5;
 
             element["Text"].split(/\r?\n/).forEach(Lines => {
                 doc.splitTextToSize(Lines, Data["Style"]["WorkHistoryBody"]["Width"]).forEach(Line => {
-                    doc.text(Data["Style"]["WorkHistoryBody"]["X"],current_y+5,Line);
-                    current_y += doc.getTextDimensions(Line)["h"]*1.1;
+                    doc.text(Data["Style"]["WorkHistoryBody"]["X"], current_y + 5, Line);
+                    current_y += doc.getTextDimensions(Line)["h"] * 1.1;
                 });
                 current_y += 1;
             });
@@ -359,19 +343,17 @@
             return current_y;
         }
 
-        function Draw(doc,text,data,current_y)
-        {
-            doc.setFont(data["Font"][0],Data["Style"]["Contact"]["Font"][1])
+        function Draw(doc, text, data, current_y) {
+            doc.setFont(data["Font"][0], Data["Style"]["Contact"]["Font"][1])
             doc.setFontSize(data["FontSize"]);
-            doc.setTextColor(data["Color"][0],data["Color"][1],Data["Style"]["Contact"]["Color"][2]);
-            doc.text(text, data["X"], current_y+data["Y"],{align:Data["Style"]["SideBarHeader"]["Align"]});
-            return current_y+data["Y"]
+            doc.setTextColor(data["Color"][0], data["Color"][1], Data["Style"]["Contact"]["Color"][2]);
+            doc.text(text, data["X"], current_y + data["Y"], { align: Data["Style"]["SideBarHeader"]["Align"] });
+            return current_y + data["Y"]
         }
-        function downloadCvDataFile()
-        {
+        function downloadCvDataFile() {
             var data = GetDataObject();
             var name = data["Name"] || "CV_File"
-            download(name+".json",JSON.stringify(data,null, "\t"))
+            download(name + ".json", JSON.stringify(data, null, "\t"))
         }
         function download(filename, text) {
             var element = document.createElement('a');
@@ -383,28 +365,26 @@
             document.body.removeChild(element);
         }
 
-        function setStyle(doc,style)
-        {
-            if(style["Color"] != undefined)
-            {
-                doc.setDrawColor(style["Color"][0],style["Color"][1],style["Color"][2]);
-                doc.setFillColor(style["Color"][0],style["Color"][1],style["Color"][2]);
-                doc.setTextColor(style["Color"][0],style["Color"][1],style["Color"][2]);
+        function setStyle(doc, style) {
+            if (style["Color"] != undefined) {
+                doc.setDrawColor(style["Color"][0], style["Color"][1], style["Color"][2]);
+                doc.setFillColor(style["Color"][0], style["Color"][1], style["Color"][2]);
+                doc.setTextColor(style["Color"][0], style["Color"][1], style["Color"][2]);
             }
             if (style["FontSize"] != undefined) {
                 doc.setFontSize(style["FontSize"]);
             }
             if (style["Font"] != undefined) {
-                doc.setFont(style["Font"][0],style["Font"][1])
+                doc.setFont(style["Font"][0], style["Font"][1])
             }
-            
-           
-            
-            
+
+
+
+
         }
     </script>
     <style>
-        #frame{
+        #frame {
             width: 100%;
             height: 100vh;
         }
@@ -414,214 +394,223 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
     <link rel="manifest" href="./site.webmanifest">
 </head>
+
 <body style="padding: 1vw;">
 
     <div>
         <div class="row">
 
-          <div class="col">
-            <div class="form-group row">
-                <label for="SaveFile" class="col-sm-1 col-form-label" style="text-align: right;">Load:</label>
-                <div class="col-sm-4">
-                    <input type="file" class="form-control" id="SaveFile" />
+            <div class="col">
+                <div class="form-group row">
+                    <label for="SaveFile" class="col-sm-1 col-form-label" style="text-align: right;">Load:</label>
+                    <div class="col-sm-4">
+                        <input type="file" class="form-control" id="SaveFile" />
+                    </div>
+
+                    <label for="LoadFile" class="col-sm-1 col-form-label" style="text-align: right;">Save:</label>
+                    <div class="col-sm-4">
+                        <button onclick="downloadCvDataFile()" class="btn btn-primary">Download</button>
+                    </div>
+                </div>
+                <hr>
+                <h6>Template Settings</h6>
+                <div class="form-group row">
+                    <label for="Templates" class="col-sm-1 col-form-label" style="text-align: right;">Templates:</label>
+                    <div class="col-sm-2">
+                        <select class="form-select" id="Templates" onchange="SelectNewTemplate()">
+                            <option value="Template1">
+                                Blue lake
+                            </option>
+                            <option value="Template2">
+                                Gray Ocean
+                            </option>
+                            <option value="Template3">
+                                Gray Ocean Advanced
+                            </option>
+                            <option value="Template4">
+                                Gray Lake Advanced
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        Loaded Template: <span id="TemplateName"></span>
+                    </div>
+
+                    <div class="form-check col-sm-5">
+                        <input class="form-check-input" type="checkbox" checked id="LiveEdit">
+                        <label class="form-check-label" for="LiveEdit">
+                            Live Edit
+                        </label>
+                    </div>
                 </div>
 
-                <label for="LoadFile" class="col-sm-1 col-form-label" style="text-align: right;">Save:</label>
-                <div class="col-sm-4">
-                    <button onclick="downloadCvDataFile()" class="btn btn-primary">Download</button>
 
-                </div>
-            </div>
-            <hr>
-            <h6>Template Settings</h6>
-            <div class="form-group row">
-                <label for="Templates" class="col-sm-1 col-form-label" style="text-align: right;">Templates:</label>
-                <div class="col-sm-2">
-                    <select class="form-select" id="Templates" onchange="SelectNewTemplate()">
-                        <option value="Template1">
-                            Blue lake 
-                        </option>
-                        <option value="Template2">
-                            Gray Ocean
-                        </option>
-                        <option value="Template3">
-                            Gray Ocean Advanced
-                        </option>
-                    </select>
+
+
+
+                <hr />
+                <h6>Personal Details</h6>
+                <div class="form-group row">
+                    <label for="Name" class="col-sm-2 col-form-label" style="text-align: right;">Full Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Name">
+                    </div>
                 </div>
 
-                <div class="col-sm-4">
-                    Loaded Template: <span id="TemplateName"></span>
+                <div class="form-group row">
+                    <label for="JobTitle" class="col-sm-2 col-form-label" style="text-align: right;">Job Title:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="JobTitle">
+                    </div>
                 </div>
 
-                <div class="form-check col-sm-5">
-                    <input class="form-check-input" type="checkbox" checked id="LiveEdit">
-                    <label class="form-check-label" for="LiveEdit">
-                        Live Edit
-                    </label>
-                  </div>
-            </div>
-            
-
-            
-
-            
-            <hr/>
-            <h6>Personal Details</h6>
-            <div class="form-group row">
-                <label for="Name" class="col-sm-2 col-form-label" style="text-align: right;">Full Name:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="Name">
+                <hr />
+                <h6>Contact Details</h6>
+                <div class="form-group row">
+                    <label for="ContactName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="ContactName" noLiveEdit="1">
+                    </div>
+                    <label for="ContactValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="ContactValue" noLiveEdit="1">
+                    </div>
+                    <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Contact')">Add</button>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="JobTitle" class="col-sm-2 col-form-label" style="text-align: right;">Job Title:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="JobTitle">
-                </div>
-            </div>
+                <table id="ContactsList" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Value</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-            <hr/>
-            <h6>Contact Details</h6>
-            <div class="form-group row">
-                <label for="ContactName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="ContactName" noLiveEdit="1">
-                </div>
-                <label for="ContactValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="ContactValue" noLiveEdit="1">
-                </div>
-                <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Contact')">Add</button>
-            </div>
-
-            <table id="ContactsList" class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Value</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-
-              
-              <hr/>
-            <h6>Skills Details</h6>
-            <div class="form-group row">
-                <label for="SkillName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="SkillName" noLiveEdit="1">
-                </div>
-                <label for="SkillValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
-                <div class="col-sm-3">
-                    <input type="number"  min="1" max="100" class="form-control" id="SkillValue" noLiveEdit="1">
-                </div>
-                <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Skill')">Add</button>
-            </div>
-
-            <table id="SkillsList" class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Value</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-
-
-              <h6>Language Details</h6>
-              <div class="form-group row">
-                  <label for="LanguageName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
-                  <div class="col-sm-3">
-                      <input type="text" class="form-control" id="LanguageName" noLiveEdit="1">
-                  </div>
-                  <label for="LanguageValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
-                  <div class="col-sm-3">
-                      <input type="text" class="form-control" id="LanguageValue" noLiveEdit="1">
-                  </div>
-                  <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Language')">Add</button>
-              </div>
-  
-              <table id="LanguagesList" class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Value</th>
-                      <th scope="col"></th>
-                      <th scope="col">Up</th>
-                      <th scope="col">Down</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-  
-                  </tbody>
+                    </tbody>
                 </table>
 
-            <hr>
-            <h6>Summary
-                    <input class="form-check-input" type="checkbox" style="margin-left: 10vw;" checked id="IncludeSummaryHeader">
+
+                <hr />
+                <h6>Skills Details</h6>
+                <div class="form-group row">
+                    <label for="SkillName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="SkillName" noLiveEdit="1">
+                    </div>
+                    <label for="SkillValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                    <div class="col-sm-3">
+                        <input type="number" min="1" max="100" class="form-control" id="SkillValue" noLiveEdit="1">
+                    </div>
+                    <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Skill')">Add</button>
+                </div>
+
+                <table id="SkillsList" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Value</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+
+                <h6>Language Details</h6>
+                <div class="form-group row">
+                    <label for="LanguageName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="LanguageName" noLiveEdit="1">
+                    </div>
+                    <label for="LanguageValue" class="col-sm-2 col-form-label" style="text-align: right;">Value:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="LanguageValue" noLiveEdit="1">
+                    </div>
+                    <button class="col-sm-2 btn btn-primary" onclick="addNewToList('Language')">Add</button>
+                </div>
+
+                <table id="LanguagesList" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Value</th>
+                            <th scope="col"></th>
+                            <th scope="col">Up</th>
+                            <th scope="col">Down</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+                <hr>
+                <h6>Summary
+                    <input class="form-check-input" type="checkbox" style="margin-left: 10vw;" checked
+                        id="IncludeSummaryHeader">
                     <label class="form-check-label" for="IncludeSummaryHeader">
                         Include Header
                     </label>
-            </h6>
-            
-            <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
-            
-            <hr>
-              <h6>Work History</h6>
-              <div class="form-group row">
-                  <label for="WorkHistoryFrom" class="col-sm-1 col-form-label" style="text-align: right;">From:</label>
-                  <div class="col-sm-2">
-                      <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryFrom" noLiveEdit="1">
-                  </div>
-                  <label for="WorkHistoryTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
-                  <div class="col-sm-2">
-                      <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryTo" noLiveEdit="1">
-                  </div>
-                  <label for="WorkHistoryName" class="col-sm-1 col-form-label" style="text-align: right;">Name:</label>
-                  <div class="col-sm-2">
-                      <input type="text" class="form-control" id="WorkHistoryName" noLiveEdit="1">
-                  </div>
-                  <label for="WorkHistoryLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
-                  <div class="col-sm-2">
-                      <input type="text" class="form-control" id="WorkHistoryLocation" noLiveEdit="1">
-                  </div>
+                </h6>
+
+                <textarea style="width: 100%; height: 100px;" id="Summary"></textarea>
+
+                <hr>
+                <h6>Work History</h6>
+                <div class="form-group row">
+                    <label for="WorkHistoryFrom" class="col-sm-1 col-form-label"
+                        style="text-align: right;">From:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryFrom"
+                            noLiveEdit="1">
+                    </div>
+                    <label for="WorkHistoryTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="WorkHistoryTo" noLiveEdit="1">
+                    </div>
+                    <label for="WorkHistoryName" class="col-sm-1 col-form-label"
+                        style="text-align: right;">Name:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="WorkHistoryName" noLiveEdit="1">
+                    </div>
+                    <label for="WorkHistoryLocation" class="col-sm-1 col-form-label"
+                        style="text-align: right;">Location:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="WorkHistoryLocation" noLiveEdit="1">
+                    </div>
                 </div>
                 <br>
 
                 <div class="form-group row">
-                  <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('WorkHistory')">Add</button>
+                    <button class="col-sm-12 btn btn-primary" type="button"
+                        onclick="addWorkHistory('WorkHistory')">Add</button>
                 </div>
 
-              
-  
-              <table id="WorkHistorysList" class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">From</th>
-                      <th scope="col">To</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Location</th>
-                      <th scope="col">Text</th>
-                      <th scope="col"></th>
-                      <th scope="col">Up</th>
-                      <th scope="col">Down</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-  
-                  </tbody>
+
+
+                <table id="WorkHistorysList" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Text</th>
+                            <th scope="col"></th>
+                            <th scope="col">Up</th>
+                            <th scope="col">Down</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
                 </table>
-  
+
                 <hr>
                 <h6>Education</h6>
                 <div class="form-group row">
@@ -637,106 +626,114 @@
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="EducationName" noLiveEdit="1">
                     </div>
-                    <label for="EducationLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
+                    <label for="EducationLocation" class="col-sm-1 col-form-label"
+                        style="text-align: right;">Location:</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control" id="EducationLocation" noLiveEdit="1">
                     </div>
-                  </div>
-                  <br>
-                  <div class="form-group row">
-                    <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Education')">Add</button>
-                  </div>
-  
-                
-    
+                </div>
+                <br>
+                <div class="form-group row">
+                    <button class="col-sm-12 btn btn-primary" type="button"
+                        onclick="addWorkHistory('Education')">Add</button>
+                </div>
+
+
+
                 <table id="EducationsList" class="table">
                     <thead>
-                      <tr>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Text</th>
-                        <th scope="col"></th>
+                        <tr>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Text</th>
+                            <th scope="col"></th>
 
-                      </tr>
+                        </tr>
                     </thead>
                     <tbody>
-    
+
                     </tbody>
-                  </table>
+                </table>
 
-                  <hr>
-                  <h6>Certificates</h6>
-                  <div class="form-group row">
-                      <label for="CertificateFrom" class="col-sm-1 col-form-label" style="text-align: right;">From:</label>
-                      <div class="col-sm-2">
-                          <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateFrom" noLiveEdit="1">
-                      </div>
-                      <label for="CertificateTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
-                      <div class="col-sm-2">
-                          <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateTo" noLiveEdit="1">
-                      </div>
-                      <label for="CertificateName" class="col-sm-1 col-form-label" style="text-align: right;">Name:</label>
-                      <div class="col-sm-2">
-                          <input type="text" class="form-control" id="CertificateName" noLiveEdit="1">
-                      </div>
-                      <label for="CertificateLocation" class="col-sm-1 col-form-label" style="text-align: right;">Location:</label>
-                      <div class="col-sm-2">
-                          <input type="text" class="form-control" id="CertificateLocation" noLiveEdit="1">
-                      </div>
+                <hr>
+                <h6>Certificates</h6>
+                <div class="form-group row">
+                    <label for="CertificateFrom" class="col-sm-1 col-form-label"
+                        style="text-align: right;">From:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateFrom"
+                            noLiveEdit="1">
                     </div>
-                    <br>
-                    <div class="form-group row">
-                      <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Certificate')">Add</button>
+                    <label for="CertificateTo" class="col-sm-1 col-form-label" style="text-align: right;">To:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="YYYY-MM" id="CertificateTo" noLiveEdit="1">
                     </div>
-    
-                  
-      
-                  <table id="CertificatesList" class="table">
-                      <thead>
+                    <label for="CertificateName" class="col-sm-1 col-form-label"
+                        style="text-align: right;">Name:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="CertificateName" noLiveEdit="1">
+                    </div>
+                    <label for="CertificateLocation" class="col-sm-1 col-form-label"
+                        style="text-align: right;">Location:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="CertificateLocation" noLiveEdit="1">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group row">
+                    <button class="col-sm-12 btn btn-primary" type="button"
+                        onclick="addWorkHistory('Certificate')">Add</button>
+                </div>
+
+
+
+                <table id="CertificatesList" class="table">
+                    <thead>
                         <tr>
-                          <th scope="col">From</th>
-                          <th scope="col">To</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Location</th>
-                          <th scope="col">Text</th>
-                          <th scope="col"></th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Text</th>
+                            <th scope="col"></th>
                         </tr>
-                      </thead>
-                      <tbody>
-      
-                      </tbody>
-                    </table>
+                    </thead>
+                    <tbody>
 
-            <button type="button" class="btn btn-danger col-sm-12" onclick="MakePage()">Render</button>
+                    </tbody>
+                </table>
 
-            
-          </div>
+                <button type="button" class="btn btn-danger col-sm-12" onclick="MakePage()">Render</button>
 
-          <div class="col">
-            <iframe id="frame" style="position:fixed; width: 49%; top:0px "></iframe>
-          </div>
+
+            </div>
+
+            <div class="col">
+                <iframe id="frame" style="position:fixed; width: 49%; top:0px "></iframe>
+            </div>
 
         </div>
-      </div>
+    </div>
 
 
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="myModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <textarea style="height:500px"></textarea>
-          </div>
+            <div class="modal-content">
+                <textarea style="height:500px"></textarea>
+            </div>
         </div>
-      </div>
+    </div>
 
-      
-      <script src="./css/fonts/Hash44-bold.js"></script>
-      <script src="./css/fonts/FontAwesome5Solid-normal.js"></script>
-      <script src="./css/fonts/FontAwesome5Brands-normal.js"></script>
-      <script src="./css/fonts/Glyphter-normal.js"></script>
-      
+
+    <script src="./css/fonts/Hash44-bold.js"></script>
+    <script src="./css/fonts/FontAwesome5Solid-normal.js"></script>
+    <script src="./css/fonts/FontAwesome5Brands-normal.js"></script>
+    <script src="./css/fonts/Glyphter-normal.js"></script>
     <script src="./TemplateController.js"></script>
+
 </body>
+
 </html>
