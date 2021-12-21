@@ -108,7 +108,7 @@ function addToList(domName,name,value)
 {
     if(name == "" || value == "")
         return;
-    $('#'+domName+'sList > tbody:last-child').append('<tr><td>'+name+'</td><td>'+value+'</td><td><button type="button" class="btn btn-danger" onclick="removeFromTable(this)">X</button></td><td><button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">UP</button></td><td><button type="button"class="btn btn-outline-primary" onclick="moveDown(this)">Down</button></td></tr>');
+    $('#'+domName+'sList > tbody:last-child').append('<tr><td><input onkeyup="LiveEdit()" class="form-control" value="'+name+'"/></td><td><input onkeyup="LiveEdit()" class="form-control" value="'+value+'"/></td><td><button type="button" class="btn btn-danger" onclick="removeFromTable(this)">X</button></td><td><button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">UP</button></td><td><button type="button"class="btn btn-outline-primary" onclick="moveDown(this)">Down</button></td></tr>');
 };
 
 function addToWorkList(domName, datefrom,dateto,name,location,text)

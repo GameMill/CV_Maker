@@ -42,8 +42,9 @@
                 $("#"+element+"List tbody > tr").each(function () 
                 { 
                     var children = $(this).children();
-                    var Name = $(children[0]).text();
-                    var Value = $(children[1]).text();
+                    var Name = $($(children[0]).children()[0]).val();
+                    var Value = $($(children[1]).children()[0]).val();
+                    console.log();
                     Data[element][Name] = Value
                 });
             });
@@ -322,7 +323,7 @@
                 "Font":["Helvetica",""],
                 "FontSize":9
             });
-            doc.text(95,doc.internal.pageSize.getHeight()-3,"Made Using https://gamemill.github.io/CV_Maker/");
+            doc.text(95,doc.internal.pageSize.getHeight()-1,"Made Using https://gamemill.github.io/CV_Maker/");
 
             $("#frame").attr('src', doc.output('datauristring'))
 
@@ -408,6 +409,10 @@
             height: 100vh;
         }
     </style>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body style="padding: 1vw;">
 
@@ -591,6 +596,8 @@
                       <input type="text" class="form-control" id="WorkHistoryLocation" noLiveEdit="1">
                   </div>
                 </div>
+                <br>
+
                 <div class="form-group row">
                   <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('WorkHistory')">Add</button>
                 </div>
@@ -635,6 +642,7 @@
                         <input type="text" class="form-control" id="EducationLocation" noLiveEdit="1">
                     </div>
                   </div>
+                  <br>
                   <div class="form-group row">
                     <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Education')">Add</button>
                   </div>
@@ -678,6 +686,7 @@
                           <input type="text" class="form-control" id="CertificateLocation" noLiveEdit="1">
                       </div>
                     </div>
+                    <br>
                     <div class="form-group row">
                       <button class="col-sm-12 btn btn-primary" type="button" onclick="addWorkHistory('Certificate')">Add</button>
                     </div>

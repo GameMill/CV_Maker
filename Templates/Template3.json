@@ -8,7 +8,7 @@
         "Name":{
             "X":0,
             "Y":12,
-            "Width":100,
+            "Width":80,
             "Color":[255,255,255],
             "Font":["Helvetica",""],
             "FontSize":20
@@ -16,7 +16,7 @@
         "JobTitle":{
             "X":0,
             "Y":2,
-            "Width":100,
+            "Width":80,
             "Color":[255,255,255],
             "Font":["Helvetica","Bold"],
             "FontSize":18
