@@ -253,3 +253,6 @@ if (WitchCV != null) {
         LoadData(data)
       });
 }
+else {
+    Loading = false;
+}
