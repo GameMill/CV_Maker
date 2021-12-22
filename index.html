@@ -338,7 +338,7 @@
             });
             doc.text(95, doc.internal.pageSize.getHeight() - 1, "Made Using https://gamemill.github.io/CV_Maker/");
 
-            if (_Image["Data"] != undefined) {
+            if (_Image["Data"] != undefined && Data["Details"]["UseMainImage"]) {
                 doc.addImage(_Image["Data"], 'png', 0, 0, 40, 40)
             }
             

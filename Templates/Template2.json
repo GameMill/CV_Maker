@@ -1,7 +1,8 @@
 {
     "Details":{
         "TemplateVersion":1,
-        "Name":"Gray Ocean"
+        "Name":"Gray Ocean",
+        "UseMainImage":false
     },
 
     "Style":{

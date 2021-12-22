@@ -1,7 +1,8 @@
 {
     "Details":{
         "TemplateVersion":1,
-        "Name":"Blue lake"
+        "Name":"Blue lake",
+        "UseMainImage":false
     },
 
     "Style":{

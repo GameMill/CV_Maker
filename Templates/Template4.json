@@ -1,7 +1,8 @@
 {
     "Details":{
         "TemplateVersion":1,
-        "Name":"Gray Lake Advanced"
+        "Name":"Gray Lake Advanced",
+        "UseMainImage":true
     },
 
     "Style":{
