@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
         integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
         crossorigin="anonymous"></script>
+    <script src="./Ext/webtoolkit.base64.js"></script>
     <script src="./Ext/Boxed_Texted.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -34,12 +35,11 @@
                 "Contacts": {},
                 "Skills": {},
                 "Languages": {},
-
                 "Summary": $("#Summary").val(),
                 "WorkHistory": [],
                 "Education": [],
-                "Certificate": []
-
+                "Certificate": [],
+                "Image":_Image
             };
 
             ["Contacts", "Skills", "Languages"].forEach(element => {
@@ -79,6 +79,7 @@
                 alert("You need to load a template file first.");
                 return;
             }
+            YHistory = {};
             var Info = GetDataObject();
 
             // Default export is a4 paper, portrait, using milimeters for units
@@ -116,32 +117,48 @@
                     Name = Info["Name"];
                     setStyle(doc, Data["Style"]["Name"]);
                     current_y = doc.Boxed_Text(Name, Data["Style"]["Name"]["X"], Data["Style"]["Name"]["Y"], Data["Style"]["Name"]["Width"]);
+                    YHistory["Name"] = current_y;
                 }
 
                 if (Data["Style"]["JobTitle"] != undefined) {
                     Name = Info["JobTitle"];
                     setStyle(doc, Data["Style"]["JobTitle"]);
                     current_y = doc.Boxed_Text(Name, Data["Style"]["JobTitle"]["X"], current_y + Data["Style"]["JobTitle"]["Y"], Data["Style"]["JobTitle"]["Width"]);
+                    YHistory["JobTitle"] = current_y;
                 }
                 if (Data["SpecialFeatures"]["WebsiteBar"] != undefined) {
-
-                    IconY = Data["Style"]["ContactIcon"]["IconY"];
-                    Object.keys(Info["Contacts"]).forEach(element => {
-
-                        for (const [key, value] of Object.entries(Data["SpecialFeatures"]["WebsiteBar"]["Icons"])) {
-                            if (key == element) {
-                                setStyle(doc, Data["Style"]["ContactIcon"]);
-                                doc.text(Data["Style"]["ContactIcon"]["X"], IconY, value, { align: Data["Style"]["ContactIcon"]["Align"] });
-                                setStyle(doc, Data["Style"]["ContactIcon2"]);
-                                doc.text(Data["Style"]["ContactIcon2"]["X"], IconY - 1, Info["Contacts"][element] + " ", { align: Data["Style"]["ContactIcon"]["Align"] });
-                                delete Info["Contacts"][element];
-                                IconY += 7;
-                                break;
+                    if (Data["SpecialFeatures"]["WebsiteBar"]["Icons"] != undefined) {
+                        IconY = Data["Style"]["ContactIcon"]["IconY"];
+                        Object.keys(Info["Contacts"]).forEach(element => {
+                            for (const [key, value] of Object.entries(Data["SpecialFeatures"]["WebsiteBar"]["Icons"])) {
+                                if (key == element) {
+                                    setStyle(doc, Data["Style"]["ContactIcon"]);
+                                    doc.text(Data["Style"]["ContactIcon"]["X"], IconY, value, { align: Data["Style"]["ContactIcon"]["Align"] });
+                                    setStyle(doc, Data["Style"]["ContactIcon2"]);
+                                    doc.text(Data["Style"]["ContactIcon2"]["X"], IconY - 1, Info["Contacts"][element] + " ", { align: Data["Style"]["ContactIcon"]["Align"] });
+                                    delete Info["Contacts"][element];
+                                    IconY += 7;
+                                    break;
+                                }
                             }
-                        }
-
-
-                    });
+                        });
+                    }
+                    if (Data["SpecialFeatures"]["WebsiteBar"]["ContactsIcons"] != undefined) {
+                        IconY = Data["Style"]["ContactIcon3"]["IconY"];
+                        Object.keys(Info["Contacts"]).forEach(element => {
+                            for (const [key, value] of Object.entries(Data["SpecialFeatures"]["WebsiteBar"]["ContactsIcons"])) {
+                                if (key == element) {
+                                    setStyle(doc, Data["Style"]["ContactIcon3"]);
+                                    doc.text(Data["Style"]["ContactIcon3"]["X"], IconY, value, { align: Data["Style"]["ContactIcon3"]["Align"] });
+                                    setStyle(doc, Data["Style"]["ContactIcon4"]);
+                                    doc.text(Data["Style"]["ContactIcon4"]["X"], IconY - 1, Info["Contacts"][element] + " ", { align: Data["Style"]["ContactIcon4"]["Align"] });
+                                    delete Info["Contacts"][element];
+                                    IconY += 7;
+                                    break;
+                                }
+                            }
+                        });
+                    }
                 }
                 current_y += Data["Style"]["SideBarHeader"]["StartY"]
 
@@ -190,12 +207,17 @@
                         setStyle(doc, Data["Style"]["SkillsTitle"]);
                         doc.text(Data["Style"]["SkillsTitle"]["X"], current_y + 4, element + ":", { align: Data["Style"]["SkillsTitle"]["Align"] });
                         if (Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc, 2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Skills"][element]);
+                            ProgressBar(doc, Data["Style"]["SideBarHeader"]["X"]+2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Skills"][element]);
 
                         setStyle(doc, Data["Style"]["SkillText"]);
-                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Skills"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
-
-                        current_y += 15;
+                        if(Data["SpecialFeatures"]["ProgressBar"]["SmallX"] == undefined)
+                        {
+                            doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Skills"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
+                            current_y += 15;
+                        }
+                        else{
+                            current_y += 12;
+                        }
                     });
                 }
                 current_y += 1
@@ -218,13 +240,19 @@
                         setStyle(doc, Data["Style"]["SkillsTitle"]);
                         doc.text(Data["Style"]["SkillsTitle"]["X"], current_y + 4, element + ":", { align: Data["Style"]["SkillsTitle"]["Align"] });
                         if (Data["Style"]["SkillBarType"] == "ProgressBar")
-                            ProgressBar(doc, 2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Languages"][element]);
+                            ProgressBar(doc, Data["Style"]["SideBarHeader"]["X"]+2, current_y + 7, Data["SpecialFeatures"]["ProgressBar"]["Width"], 3, Data["SpecialFeatures"]["ProgressBar"]["BGColor"], Data["SpecialFeatures"]["ProgressBar"]["FGColor"], Info["Languages"][element]);
 
 
                         setStyle(doc, Data["Style"]["SkillText"]);
-                        doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Languages"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
+                        if(Data["SpecialFeatures"]["ProgressBar"]["SmallX"] == undefined)
+                        {
+                            doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Languages"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
+                            current_y += 15;
+                        }
+                        else{
+                            current_y += 12;
 
-                        current_y += 15;
+                        }
                     });
                 }
 
@@ -262,7 +290,7 @@
                 setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
                 setStyle(doc, Data["Style"]["SummaryHeader"]);
-                doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 6.5, "Work History");
+                doc.text(Data["Style"]["SummaryHeader"]["X"] + 2, current_y + 6.5, "Work Experience");
                 setStyle(doc, Data["Style"]["SummaryHeaderBar"]);
                 doc.rect(Data["Style"]["SummaryHeader"]["X"], current_y + 9, Data["Style"]["SummaryHeaderBar"]["Width"], .5, 'F');
 
@@ -309,6 +337,11 @@
                 "FontSize": 9
             });
             doc.text(95, doc.internal.pageSize.getHeight() - 1, "Made Using https://gamemill.github.io/CV_Maker/");
+
+            if (_Image["Data"] != undefined) {
+                doc.addImage(_Image["Data"], 'png', 0, 0, 40, 40)
+            }
+            
 
             $("#frame").attr('src', doc.output('datauristring'))
 
@@ -727,6 +760,8 @@
         </div>
     </div>
 
+    <input type="file" id="Pic"/>
+    aaa
 
     <script src="./css/fonts/Hash44-bold.js"></script>
     <script src="./css/fonts/FontAwesome5Solid-normal.js"></script>

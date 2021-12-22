@@ -153,10 +153,10 @@
     "SpecialFeatures":{
         "WebsiteBar":{
             "Icons":{
-                "LinkedIn":"B",
-                "Website":"A",
-                "GitHub":"C",
-                "TryHackMe":"E"
+                "LinkedIn":" :l",
+                "Website":" :b",
+                "GitHub":" :g",
+                "TryHackMe":" :t"
             }
             
         },

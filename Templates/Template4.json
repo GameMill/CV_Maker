@@ -6,15 +6,15 @@
 
     "Style":{
         "Name":{
-            "X":0,
-            "Y":12,
+            "X":40,
+            "Y":9,
             "Width":80,
             "Color":[255,255,255],
             "Font":["Helvetica",""],
             "FontSize":20
         },
         "JobTitle":{
-            "X":0,
+            "X":40,
             "Y":2,
             "Width":80,
             "Color":[255,255,255],
@@ -22,7 +22,7 @@
             "FontSize":18
         },
         "Contact":{
-            "X":30,
+            "X":180,
             "Y":9,
             "Width":65,
             "Color":[220,220,220],
@@ -30,22 +30,22 @@
             "FontSize":20
         },
         "ContactTitle":{
-            "X":56,
-            "Align":"right",
+            "X":153,
+            "Align":"left",
             "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":11
         },
         "ContactURL":{
-            "X":56,
+            "X":153,
             "Align":"right",
             "Color":[50,50,50],
             "Font":["Helvetica",""],
             "FontSize":11
         },
         "ContactIcon":{
-            "IconY":7,
-            "X":207,
+            "IconY":12,
+            "X":212,
             "Align":"right",
             "Color":[220,220,220],
             "Font":["Glyphter","normal"],
@@ -58,10 +58,25 @@
             "Font":["Helvetica",""],
             "FontSize":12
         },
+        "ContactIcon3":{
+            "IconY":30,
+            "X":42,
+            "Align":"left",
+            "Color":[220,220,220],
+            "Font":["Glyphter","normal"],
+            "FontSize":15
+        },
+        "ContactIcon4":{
+            "X":50,
+            "Align":"left",
+            "Color":[220,220,220],
+            "Font":["Helvetica",""],
+            "FontSize":12
+        },
         
         "SkillsTitle":{
-            "Align":"right",
-            "X":56,
+            "Align":"left",
+            "X":153,
             "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
             "FontSize":11
@@ -73,8 +88,9 @@
         },
         "SkillBarType":"ProgressBar",
         "SideBarHeader":{
-            "StartY":4,
-            "X":0,
+            "getYFrom":"SummaryText",
+            "StartY":31,
+            "X":150,
             "Align":"center",
             "Width":61,
             "Height":8,
@@ -82,8 +98,8 @@
         },
 
         "SummaryHeader":{
-            "X":62,
-            "Y":35,
+            "X":5,
+            "Y":45,
             "Width":65,
             "Color":[50,50,50],
             "Font":["Helvetica","Bold"],
@@ -97,16 +113,16 @@
         },
         
         "SummaryText":{
-            "X":65,
+            "X":5,
             "Y":0,
-            "Width":142,
+            "Width":200,
             "Color":[50,50,50],
             "Font":["Helvetica",""],
             "FontSize":10.5
         },
 
         "WorkHistoryText":{
-            "X":65,
+            "X":5,
             "Y":0,
             "Width":65,
             "Color":[50,50,50],
@@ -114,7 +130,7 @@
             "FontSize":10.5
         },
         "WorkHistoryName":{
-            "X":110,
+            "X":50,
             "Y":0,
             "Width":65,
             "Color":[50,50,50],
@@ -122,7 +138,7 @@
             "FontSize":11
         },
         "WorkHistoryBody":{
-            "X":65,
+            "X":5,
             "Y":0,
             "Width":142,
             "Color":[50,50,50],
@@ -132,31 +148,36 @@
     },
 
     "AddFeatures":[
-        {
-            "Type":"Box",
-            "Color":[230,230,230],
-            "X":0,
-            "Y":50,
-            "Width":60,
-            "Height":267
-        },
+
         {
             "Type":"Box",
             "Color":[50,50,50],
             "X":0,
             "Y":0,
             "Width":210,
-            "Height":50
+            "Height":40
+        },
+        {
+            "Type":"Box",
+            "Color":[220,220,220],
+            "X":0,
+            "Y":0,
+            "Width":40,
+            "Height":40
         }
         
     ],
     "SpecialFeatures":{
         "WebsiteBar":{
             "Icons":{
-                "LinkedIn":"B",
-                "Website":"A",
-                "GitHub":"C",
-                "TryHackMe":"E"
+                "LinkedIn":"l:",
+                "Website":"b:",
+                "GitHub":"g:",
+                "TryHackMe":"t:"
+            },
+            "ContactsIcons":{
+                "Phone":"p:",
+                "E-Mail":"m:"
             }
             
         },
@@ -164,8 +185,8 @@
             "Width":55,
             "BGColor":[200,200,200],
             "FGColor":[50,50,50],
-            "SmallAlign":"left",
-            "SmallX":2
+            "SmallAlign":"right",
+            "SmallX":0
         }
     }
 }
