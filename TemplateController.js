@@ -65,7 +65,6 @@ function LoadData(data) {
             if(data["Image"] != undefined)
             {
                 _Image = data["Image"];
-                console.log(_Image)
 
             }
             setTimeout(function () { MakePage() }, 1000);
