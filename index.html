@@ -170,7 +170,7 @@
                         doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
 
-                    Draw(doc, "Contact", Data["Style"]["Contact"], current_y - 2);
+                    Draw(doc, $("#ContactID").val(), Data["Style"]["Contact"], current_y - 2.7);
                     current_y += 8;
                 }
                 if (Data["Style"]["Contact"] != undefined && Data["Style"]["ContactTitle"] != undefined && Data["Style"]["ContactURL"] != undefined) {
@@ -181,7 +181,7 @@
                         setStyle(doc, Data["Style"]["ContactURL"]);
                         y = 0;
                         doc.splitTextToSize(Info["Contacts"][element], 60).forEach(element2 => {
-                            doc.text(Data["Style"]["ContactURL"]["X"], current_y + 10 + y, element2, { align: Data["Style"]["ContactTitle"]["Align"] });
+                            doc.text(Data["Style"]["ContactURL"]["X"], current_y + 10 + y, element2+" ", { align: Data["Style"]["ContactTitle"]["Align"] });
                             y += 5;
                         });
                         current_y += 7 + y;
@@ -197,7 +197,7 @@
                         doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
 
-                    Draw(doc, "Skills", Data["Style"]["Contact"], current_y - 2);
+                    Draw(doc, $("#SkillsID").val(), Data["Style"]["Contact"], current_y - 2.7);
                     current_y += 9;
                 }
 
@@ -222,14 +222,14 @@
                 }
                 current_y += 1
 
-
+                console.log( $("#LanguageID").val())
                 if (Object.keys(Info["Languages"]).length > 0) {
                     // Language
                     if (Data["Style"]["SideBarHeader"] != undefined) {
                         doc.setFillColor(Data["Style"]["SideBarHeader"]["Color"][0], Data["Style"]["SideBarHeader"]["Color"][1], Data["Style"]["SideBarHeader"]["Color"][2]);
                         doc.rect(Data["Style"]["SideBarHeader"]["X"], current_y, Data["Style"]["SideBarHeader"]["Width"], Data["Style"]["SideBarHeader"]["Height"], 'F');
                     }
-                    Draw(doc, "Language", Data["Style"]["Contact"], current_y - 3);
+                    Draw(doc, $("#LanguageID").val(), Data["Style"]["Contact"], current_y - 2.7);
                     current_y += 9;
                 }
 
@@ -244,7 +244,7 @@
 
 
                         setStyle(doc, Data["Style"]["SkillText"]);
-                        if(Data["SpecialFeatures"]["ProgressBar"]["SmallX"] == undefined)
+                        if(Data["SpecialFeatures"]["ProgressBar"]["SmallX"] != undefined)
                         {
                             doc.text(Data["SpecialFeatures"]["ProgressBar"]["SmallX"], current_y + 14, ProgressToNameConverter(Info["Languages"][element]), { align: Data["SpecialFeatures"]["ProgressBar"]["SmallAlign"] });
                             current_y += 15;
@@ -278,8 +278,8 @@
 
                 lastVh = 0;
                 lines.forEach(element => {
-                    doc.text(Data["Style"]["SummaryText"]["X"], current_y, element);
-                    h = doc.getTextDimensions(element)["h"] * 1.1;
+                    doc.text(Data["Style"]["SummaryText"]["X"], current_y, element+" ");
+                    h = doc.getTextDimensions(element)["h"] * 1.15;
                     if (h > 0)
                         lastVh = h;
                     current_y += lastVh;
@@ -367,7 +367,7 @@
 
             element["Text"].split(/\r?\n/).forEach(Lines => {
                 doc.splitTextToSize(Lines, Data["Style"]["WorkHistoryBody"]["Width"]).forEach(Line => {
-                    doc.text(Data["Style"]["WorkHistoryBody"]["X"], current_y + 5, Line);
+                    doc.text(Data["Style"]["WorkHistoryBody"]["X"], current_y + 5, Line+" ");
                     current_y += doc.getTextDimensions(Line)["h"] * 1.1;
                 });
                 current_y += 1;
@@ -499,7 +499,7 @@
                 </div>
 
                 <hr />
-                <h6>Contact Details</h6>
+                <h6><input value="Contact" id="ContactID" />  Details</h6>
                 <div class="form-group row">
                     <label for="ContactName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
                     <div class="col-sm-3">
@@ -527,7 +527,7 @@
 
 
                 <hr />
-                <h6>Skills Details</h6>
+                <h6><input value="Skills" id="SkillsID" /> Details</h6>
                 <div class="form-group row">
                     <label for="SkillName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
                     <div class="col-sm-3">
@@ -554,7 +554,7 @@
                 </table>
 
 
-                <h6>Language Details</h6>
+                <h6><input value="Language" id="LanguageID" /> Details</h6>
                 <div class="form-group row">
                     <label for="LanguageName" class="col-sm-2 col-form-label" style="text-align: right;">Name:</label>
                     <div class="col-sm-3">

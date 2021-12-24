@@ -4,7 +4,7 @@
 	"Name": "Christopher Boardman",
 	"JobTitle": "Software Developer",
 	"Contacts": {
-		"Address": "Wallasey, CH44",
+		"Location": "Wallasey, CH44",
 		"Phone": "07588958652",
 		"E-Mail": "ctboardman@msn.com",
 		"LinkedIn": "https://shorturl.at/rAJQ8",
@@ -26,7 +26,7 @@
 		"React": "50",
 		"Node.js": "49"
 	},
-	"Summary": "More Than 5 Years of experience as .NET Developer hobbyist. Expert at spotting system defects and navigating programming languages. passion for quality user support and client-side web development. Ambitious, career-focused jobseeker, anxious to obtain an Software Developer position to help launch career while achieving company goals.",
+	"Summary": "More Than 5 Years of experience as a .NET Developer hobbyist. Expert at spotting system defects and navigating programming languages. Passion for software development. Experienced at creating both Client and server-side web and desktop applications development. A career-focused job-seeker, anxious to obtain a Software Developer position to help launch a career while achieving company goals.",
 	"WorkHistory": [
 		{
 			"DateFrom": "2021-08",
@@ -40,7 +40,7 @@
 			"DateTo": "2021-11",
 			"Name": "Cyber Security",
 			"Location": "Code Nation, Liverpool",
-			"Text": "• Updated old PHP (PHP: Hypertext Pre-processor) code to protect against SQL injection and secure the LAMP (Linux, Apache, MySQL, PHP) server.\n• Used Programs Like Nmap to test for vulnerabilities and Exposures and research the best ways to secure against these types of attacks.\n• Led a team of 3 people to secure a LAMP (Linux, Apache, MySQL, PHP) server against the latest kinds of threats using CVEs (Common Vulnerabilities and Exposures). \n• Collaborated with the team to select realistic targets for securing the server using the SMART (Specific, Measurable, Attainable, Realistic, Time-based) approach.\n• Kept records of all changes made to the LAMP (Linux, Apache, MySQL, PHP) server."
+			"Text": "• Updated old PHP (PHP: Hypertext Pre-processor) code to help protect against SQL injection.\n• Used Programs Like Nmap to test for vulnerabilities and Exposures and research the best ways to protect against these types of attacks.\n• Led a team of 3 people to secure a LAMP (Linux, Apache, MySQL, PHP) server against the latest kinds of threats using CVEs (Common Vulnerabilities and Exposures). \n• Collaborated with the team to select realistic targets for securing the server using the SMART (Specific, Measurable, Attainable, Realistic, Time-based) approach.\n• Kept records of all changes made to the LAMP (Linux, Apache, MySQL, PHP) server."
 		}
 	],
 	"Education": [
