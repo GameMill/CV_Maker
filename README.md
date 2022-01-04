@@ -1,4 +1,4 @@
-# CV_Maker
+# CV Maker
 
 A Template driven CV Maker.
 
